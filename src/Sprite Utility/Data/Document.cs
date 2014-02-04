@@ -15,7 +15,6 @@ namespace SpriteUtility
         private string m_Name;
 
         private static Document _instance;
-
         public static Document Instance
         {
             get { return _instance; }
