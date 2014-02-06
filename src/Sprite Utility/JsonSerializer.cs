@@ -13,10 +13,9 @@ namespace SpriteUtility
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
                 Formatting = Formatting.Indented,
                 ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
-                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore
             };
-            Settings.Converters.Add(new RectangleConverter());
         }
 
         public static string Serialize<T>(T value)

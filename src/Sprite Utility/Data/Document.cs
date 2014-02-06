@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Runtime.Serialization;
@@ -111,6 +112,8 @@ namespace SpriteUtility
 
             var json = File.ReadAllText(fileName);
             var deserialized = JsonSerializer.Deserialize<Document>(json);
+            SetFrameParents(deserialized.Folders);
+
 
             var newDocument = new Document { FileName = fileName };
             newDocument.Saved = true;
@@ -138,6 +141,37 @@ namespace SpriteUtility
             
             _instance = newDocument;
             _instance.Saved = true;
+
+
+        }
+
+        private static void SetFrameParents(IEnumerable<Folder> folders)
+        {
+            // Flatten folder hierarchy
+            foreach (var folder in folders)
+            {
+                if (folder.Images != null)
+                {
+                    foreach (var image in folder.Images)
+                    {
+                        foreach (var frame in image.Frames)
+                        {
+                            foreach (var polygon in frame.Polygons)
+                            {
+                                polygon.SetFrameParent(frame);
+                                foreach (var point in polygon.Points)
+                                {
+                                    point.SetPolygonParent(polygon);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (folder.Folders != null)
+                {
+                    SetFrameParents(folder.Folders); 
+                }
+            }
         }
 
         public void Export(string fileName)

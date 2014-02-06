@@ -2,7 +2,7 @@
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
-namespace RCR.Pipeline.Imaging
+namespace SpriteUtility
 {
     public class BitmapTools
     {

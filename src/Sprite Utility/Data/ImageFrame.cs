@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using Newtonsoft.Json;
-using RCR.Pipeline.Imaging;
 
 namespace SpriteUtility
 {

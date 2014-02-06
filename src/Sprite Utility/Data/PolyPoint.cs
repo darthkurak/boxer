@@ -1,57 +1,40 @@
 ﻿using System;
-using System.IO;
+using Newtonsoft.Json;
 
 namespace SpriteUtility
 {
     public class PolyPoint
     {
-        private readonly Poly _polyParent;
+        private Poly _polyParent;
         private int _x, _y;
 
-        public PolyPoint(Poly polyParent)
-            : this(0, 0, polyParent)
-        {
-        }
-
-        public PolyPoint(int x, int y, Poly polyParent)
-        {
-            _x = x;
-            _y = y;
-            _polyParent = polyParent;
-            PointChanged += OnPointChanged;
-        }
-
-        public PolyPoint(BinaryReader reader, Poly polyParent)
-            : this(polyParent)
-        {
-            _x = reader.ReadInt32();
-            _y = reader.ReadInt32();
-        }
-
+        [JsonProperty("mapped_x")]
         public int MappedX
         {
             get
             {
                 if (MainForm.Preferences.TrimToMinimalNonTransparentArea)
                 {
-                    return _x - _polyParent.FrameParent.TrimRectangle.X;
+                    return _x - _polyParent.GetFrameParent().TrimRectangle.X;
                 }
                 return _x;
             }
         }
 
+        [JsonProperty("mapped_y")]
         public int MappedY
         {
             get
             {
                 if (MainForm.Preferences.TrimToMinimalNonTransparentArea)
                 {
-                    return _y - _polyParent.FrameParent.TrimRectangle.Y;
+                    return _y - _polyParent.GetFrameParent().TrimRectangle.Y;
                 }
                 return _y;
             }
         }
 
+        [JsonProperty("x")]
         public int X
         {
             get { return _x; }
@@ -60,36 +43,46 @@ namespace SpriteUtility
                 if (_x != value)
                 {
                     _x = value;
-                    PointChanged(this, EventArgs.Empty);
+                    if (PointChanged != null)
+                    {
+                        PointChanged(this, EventArgs.Empty);
+                    }
                     Document.Instance.Invalidate(this, EventArgs.Empty);
                 }
             }
         }
 
+        [JsonProperty("y")]
         public int Y
         {
             get { return _y; }
             set
             {
-                if (_y != value)
+                if (_y == value) return;
+                _y = value;
+                if (PointChanged != null)
                 {
-                    _y = value;
                     PointChanged(this, EventArgs.Empty);
-                    Document.Instance.Invalidate(this, EventArgs.Empty);
                 }
+                Document.Instance.Invalidate(this, EventArgs.Empty);
             }
         }
 
+        [JsonConstructor]
+        public PolyPoint(int x, int y)
+        {
+            _x = x;
+            _y = y;
+            PointChanged += OnPointChanged;
+        }
+        
         public event EventHandler<EventArgs> PointChanged;
 
-        protected virtual void OnPointChanged(object sender, EventArgs e)
-        {
-        }
+        protected virtual void OnPointChanged(object sender, EventArgs e) { }
 
-        public void Write(BinaryWriter writer)
+        public void SetPolygonParent(Poly polygon)
         {
-            writer.Write(_x);
-            writer.Write(_y);
+            _polyParent = polygon;
         }
     }
 }

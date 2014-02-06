@@ -128,7 +128,9 @@ namespace SpriteUtility
 
         private void MenuAddPolyClicked(object sender, EventArgs e)
         {
-            _frame.Polygons.Add(new Poly(_frame));
+            var poly = new Poly();
+            poly.SetFrameParent(_frame);
+            _frame.Polygons.Add(poly);
         }
 
         private void SetFrameLabel()

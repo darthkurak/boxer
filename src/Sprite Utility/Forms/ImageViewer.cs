@@ -5,7 +5,6 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using RCR.Pipeline.Imaging;
 using WinFormsGraphicsDevice;
 using Color = Microsoft.Xna.Framework.Color;
 using Point = Microsoft.Xna.Framework.Point;
@@ -367,11 +366,10 @@ namespace SpriteUtility
                     //if not add point
                     if (_moving == null)
                     {
-                        Vector2 polyWorldCenter = _camera2D.GetWorldCoordinates(new Vector2(e.X, e.Y));
-
-                        var p = new PolyPoint((int) polyWorldCenter.X, (int) polyWorldCenter.Y, _poly);
+                        var polyWorldCenter = _camera2D.GetWorldCoordinates(new Vector2(e.X, e.Y));
+                        var p = new PolyPoint((int) polyWorldCenter.X, (int) polyWorldCenter.Y);
+                        p.SetPolygonParent(_poly);
                         _poly.Points.Add(p);
-
                         _moving = p;
                     }
                 }

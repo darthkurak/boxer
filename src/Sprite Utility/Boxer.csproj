@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SpriteUtility</RootNamespace>
-    <AssemblyName>Sprite Utility</AssemblyName>
+    <AssemblyName>Boxer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -100,9 +100,8 @@
       <DependentUpon>FolderProperties.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ImageHelper.cs" />
-    <Compile Include="Serialization\JsonSerializer.cs" />
+    <Compile Include="JsonSerializer.cs" />
     <Compile Include="Primitives2D.cs" />
-    <Compile Include="Serialization\RectangleConverter.cs" />
     <Compile Include="Services\Shape.cs" />
     <Compile Include="Services\TraceService.cs" />
     <Compile Include="Stubs\CustomSelection.cs">
