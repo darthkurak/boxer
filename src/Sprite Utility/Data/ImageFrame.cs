@@ -34,7 +34,10 @@ namespace SpriteUtility
                 if (_isOpen != value)
                 {
                     _isOpen = value;
-                    IsOpenChanged(this, EventArgs.Empty);
+                    if (IsOpenChanged != null)
+                    {
+                        IsOpenChanged(this, EventArgs.Empty);
+                    }
                     Document.Instance.Invalidate(this, EventArgs.Empty);
                 }
             }

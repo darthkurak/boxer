@@ -1,21 +1,26 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using SpriteUtility.Data;
+using Newtonsoft.Json;
 
-namespace SpriteUtility
+namespace SpriteUtility.Data.Export
 {
+    [Serializable]
     public class FolderExport
     {
-        public string FolderName { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
+        [JsonProperty("images", Required = Required.AllowNull)]
         public List<ImageDataExport> Images { get; set; }
 
+        [JsonProperty("folders", Required = Required.AllowNull)]
         public List<FolderExport> Folders { get; set; }
 
         public FolderExport(Folder folder)
         {
 
-            FolderName = folder.Name;
+            Name = folder.Name;
 
             var images = folder.Children.Where(p => p is ImageData).Cast<ImageData>();
             var folders = folder.Children.Where(p => p is Folder).Cast<Folder>();

@@ -1,10 +1,16 @@
+using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
-namespace SpriteUtility
+namespace SpriteUtility.Data.Export
 {
+    [Serializable]
     public class PolygonExport
     {
+        [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("points")]
         public List<PolyPointExport> Points { get; set; }
 
         public PolygonExport(Poly poly)

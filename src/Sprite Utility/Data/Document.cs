@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
 using SpriteUtility.Data;
+using SpriteUtility.Data.Export;
 
 namespace SpriteUtility
 {
@@ -176,7 +177,8 @@ namespace SpriteUtility
 
         public void Export(string fileName)
         {
-            var json = JsonSerializer.Serialize(new DocumentExport(this));
+            var export = new DocumentExport(this);
+            var json = JsonSerializer.Serialize(export);
             File.WriteAllText(fileName, json);
         }
 

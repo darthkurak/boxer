@@ -1,14 +1,25 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
+using SpriteUtility.Data.Export;
 
 namespace SpriteUtility
 {
+    [Serializable]
     public class ImageFrameExport
     {
+        [JsonProperty("center_point")]
         public Vector2 CenterPoint { get; set; }
-        public List<PolygonExport> Polygons { get; set; }
+
+        [JsonProperty("duration")]
         public int Duration { get; set; }
+
+        [JsonProperty("is_open")]
         public bool IsOpen { get; set; }
+
+        [JsonProperty("polygons")]
+        public List<PolygonExport> Polygons { get; set; }
 
         public ImageFrameExport(ImageFrame frame)
         {

@@ -1,10 +1,16 @@
+using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
-namespace SpriteUtility
+namespace SpriteUtility.Data.Export
 {
+    [Serializable]
     public class DocumentExport
     {
+        [JsonProperty("project_name")]
         public string ProjectName { get; set; }
+
+        [JsonProperty("folders")]
         public List<FolderExport> Folders { get; set; }
 
         public DocumentExport(Document document)
