@@ -159,9 +159,9 @@ namespace SpriteUtility
         {
             var dialog = new SaveFileDialog {Filter = "JSON (*.json)|*.json"};
             ImageViewer.Paused = true;
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                Document.Instance.WriteJson(dialog.FileName);
+                Document.Instance.Export(dialog.FileName);
             }
             ImageViewer.Paused = false;
         }

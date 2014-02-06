@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace SpriteUtility
 {
+    [Serializable]
     public class Poly
     {
         private readonly bool _invalidateTrigger;
@@ -31,13 +33,16 @@ namespace SpriteUtility
             _invalidateTrigger = true;
         }
 
+        [JsonProperty("frame_parent")]
         public ImageFrame FrameParent { get; private set; }
 
+        [JsonProperty("points")]
         public ObservableCollection<PolyPoint> Points
         {
             get { return _points; }
         }
 
+        [JsonProperty("name")]
         public string Name
         {
             get { return _name; }
@@ -60,16 +65,8 @@ namespace SpriteUtility
 
         private void PointCollectionChanged(object sender, EventArgs e)
         {
-            if (_invalidateTrigger)
-                Document.Instance.Invalidate(this, EventArgs.Empty);
-        }
-
-        public void Write(BinaryWriter writer)
-        {
-            writer.Write(_name);
-            writer.Write(_points.Count);
-            foreach (PolyPoint p in _points)
-                p.Write(writer);
+            if (!_invalidateTrigger) return;
+            Document.Instance.Invalidate(this, EventArgs.Empty);
         }
     }
 }

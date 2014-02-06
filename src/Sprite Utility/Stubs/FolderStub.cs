@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SpriteUtility.Data;
 
@@ -16,14 +17,14 @@ namespace SpriteUtility
             InitializeComponent();
             _folder = folder;
             _document = document;
-            FolderLabel.Text = _folder.Name + " (" + _folder.Childrens.Count + ")";
+            FolderLabel.Text = _folder.Name + " (" + _folder.Children.Count + ")";
             _folder.NameChanged += FolderNameChanged;
-            _folder.Childrens.CollectionChanged += ChildrenCountChanged;
+            _folder.Children.CollectionChanged += ChildrenCountChanged;
 
             SetColor();
 
             MainForm.Preferences.PreferencesSaved += PreferencesOnPreferencesSaved;
-            foreach (object child in _folder.Childrens)
+            foreach (var child in _folder.Children)
             {
                 if (child is Folder)
                 {
@@ -51,7 +52,7 @@ namespace SpriteUtility
 
         private void FolderNameChanged(object sender, EventArgs e)
         {
-            FolderLabel.Text = _folder.Name + " (" + _folder.Childrens.Count + ")";
+            FolderLabel.Text = _folder.Name + " (" + _folder.Children.Count + ")";
 
             Panel.Reorder();
         }
@@ -68,7 +69,7 @@ namespace SpriteUtility
 
         private void MenuAddFolderClicked(object sender, EventArgs e)
         {
-            _folder.Childrens.Add(new Folder());
+            _folder.Add(new Folder());
         }
 
         private void MenuRemoveFolderClicked(object sender, EventArgs e)
@@ -79,7 +80,7 @@ namespace SpriteUtility
             }
             else if (ParentSelection is FolderStub)
             {
-                (ParentSelection as FolderStub).Folder.Childrens.Remove(_folder);
+                (ParentSelection as FolderStub).Folder.Remove(_folder);
             }
         }
 
@@ -91,7 +92,7 @@ namespace SpriteUtility
             {
                 foreach (var filename in dialog.FileNames)
                 {
-                    _folder.Childrens.Add(new ImageData(filename));
+                    _folder.Add(new ImageData(filename));
                 }
             }
             ImageViewer.Paused = false;
@@ -99,12 +100,12 @@ namespace SpriteUtility
 
         private void ChildrenCountChanged(object sender, EventArgs e)
         {
-            FolderLabel.Text = _folder.Name + " (" + _folder.Childrens.Count + ")";
+            FolderLabel.Text = _folder.Name + " (" + _folder.Children.Count + ")";
 
             bool found = false;
             int counter;
 
-            foreach (object child in _folder.Childrens)
+            foreach (object child in _folder.Children)
             {
                 if (child is Folder)
                 {
@@ -146,7 +147,7 @@ namespace SpriteUtility
             {
                 found = false;
 
-                foreach (object child in _folder.Childrens)
+                foreach (object child in _folder.Children)
                 {
                     if (child is Folder && Expandable[counter] is FolderStub &&
                         ((FolderStub) Expandable[counter]).Folder == child)

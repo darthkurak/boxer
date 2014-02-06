@@ -17,8 +17,8 @@ namespace SpriteUtility
 
             FolderName = folder.Name;
 
-            var images = folder.Childrens.Where(p => p is ImageData).Cast<ImageData>();
-            var folders = folder.Childrens.Where(p => p is Folder).Cast<Folder>();
+            var images = folder.Children.Where(p => p is ImageData).Cast<ImageData>();
+            var folders = folder.Children.Where(p => p is Folder).Cast<Folder>();
 
             Images = new List<ImageDataExport>();
 

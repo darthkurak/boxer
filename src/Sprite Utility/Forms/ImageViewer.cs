@@ -599,6 +599,7 @@ namespace SpriteUtility
             imageData = new MemoryStream(_image.Data);
             _texture = Texture2D.FromStream(GraphicsDevice, imageData);
             imageData.Close();
+
             _centerRectangle = new Rectangle(0, 0, 16, 16);
             _polygonRectangle = new Rectangle(0, 0, 8, 8);
             _imageRectangle = new Rectangle(-1, -1, _image.Width + 1, _image.Height + 1);

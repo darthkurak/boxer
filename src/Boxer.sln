@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{C7AFC86A-9
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boxer.Tests", "Boxer.Tests\Boxer.Tests.csproj", "{50AB51C5-14BD-4AF2-B08B-55D79F13340A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,16 @@ Global
 		{A346C398-D3A2-40F2-A355-809D7D6A167A}.Release|Mixed Platforms.Build.0 = Release|x86
 		{A346C398-D3A2-40F2-A355-809D7D6A167A}.Release|x86.ActiveCfg = Release|x86
 		{A346C398-D3A2-40F2-A355-809D7D6A167A}.Release|x86.Build.0 = Release|x86
+		{50AB51C5-14BD-4AF2-B08B-55D79F13340A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50AB51C5-14BD-4AF2-B08B-55D79F13340A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50AB51C5-14BD-4AF2-B08B-55D79F13340A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{50AB51C5-14BD-4AF2-B08B-55D79F13340A}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{50AB51C5-14BD-4AF2-B08B-55D79F13340A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{50AB51C5-14BD-4AF2-B08B-55D79F13340A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50AB51C5-14BD-4AF2-B08B-55D79F13340A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50AB51C5-14BD-4AF2-B08B-55D79F13340A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{50AB51C5-14BD-4AF2-B08B-55D79F13340A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{50AB51C5-14BD-4AF2-B08B-55D79F13340A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

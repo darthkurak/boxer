@@ -120,7 +120,7 @@ namespace SpriteUtility
             Panel.ImageProperties.Visible = false;
             m_Image.Frames.Clear();
             var folderStub = ParentSelection as FolderStub;
-            if (folderStub != null) folderStub.Folder.Childrens.Remove(m_Image);
+            if (folderStub != null) folderStub.Folder.Remove(m_Image);
         }
     }
 }

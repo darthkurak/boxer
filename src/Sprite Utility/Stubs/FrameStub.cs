@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
+using SpriteUtility.Helpers;
 
 namespace SpriteUtility
 {
@@ -19,7 +20,7 @@ namespace SpriteUtility
             SetFrameLabel();
             PolyCount.Text = "Polygons: " + _frame.Polygons.Count;
             SetContextMenu();
-            Thumbnail.BackgroundImage = _frame.Thumbnail;
+            Thumbnail.BackgroundImage = ImageHelper.ByteArrayToImage(_frame.Thumbnail);
             parent.Image.Frames.CollectionChanged += Image_FramesChanged;
             _frame.Polygons.CollectionChanged += PolysChanged;
             _frame.IsOpenChanged += OnIsOpenChanged;

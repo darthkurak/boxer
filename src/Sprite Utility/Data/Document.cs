@@ -9,7 +9,6 @@ namespace SpriteUtility
 {
     public class Document
     {
-        private const byte VERSION_CODE_1 = 0x01;
         private static bool m_TriggerInvalidate;
         private readonly ObservableCollection<Folder> _folders;
         private string m_Name;
@@ -17,7 +16,7 @@ namespace SpriteUtility
         private static Document _instance;
         public static Document Instance
         {
-            get { return _instance; }
+            get { return _instance ?? (_instance = new Document()); }
         }
 
         public Document()
@@ -65,36 +64,28 @@ namespace SpriteUtility
 
         public void Save(bool forceNewName)
         {
-            SaveFileDialog Dialog;
-            DialogResult Result;
-            FileStream Stream;
-            BinaryWriter Writer;
-
             if (forceNewName || FileName == "Not Saved")
             {
-                Dialog = new SaveFileDialog();
+                SaveFileDialog Dialog = new SaveFileDialog();
                 Dialog.Filter = "Sprite Utility Files (*.suf)|*.suf";
                 ImageViewer.Paused = true;
-                Result = Dialog.ShowDialog();
+                DialogResult Result = Dialog.ShowDialog();
                 ImageViewer.Paused = false;
                 if (Result == DialogResult.OK)
+                {
                     FileName = Dialog.FileName;
+                }
                 else
+                {
                     return;
+                }
             }
 
-            Stream = new FileStream(FileName, FileMode.Create);
-            Writer = new BinaryWriter(Stream);
-            Writer.Write(VERSION_CODE_1);
-            Writer.Write(m_Name);
-
-            Writer.Write(Folders.Count);
-            foreach (Folder folder in Folders)
-                folder.Write(Writer);
-
-            Stream.Close();
+            var json = JsonSerializer.Serialize(this);
+            File.WriteAllText(FileName, json);
+            
+            FolderCollectionChanged(this, EventArgs.Empty);
             Saved = true;
-
             DocumentSaved(this, EventArgs.Empty);
         }
 
@@ -118,34 +109,42 @@ namespace SpriteUtility
             else
                 return;
 
-            var stream = new FileStream(fileName, FileMode.Open);
-            var reader = new BinaryReader(stream);
-            byte version = reader.ReadByte();
+            var json = File.ReadAllText(fileName);
+            var deserialized = JsonSerializer.Deserialize<Document>(json);
 
-            if (version == VERSION_CODE_1)
+            var newDocument = new Document { FileName = fileName };
+            newDocument.Saved = true;
+            newDocument.m_Name = deserialized.Name;
+            
+            m_TriggerInvalidate = true;
+            var folderCount = deserialized.Folders.Count;
+            m_TriggerInvalidate = false;
+            for (var i = 0; i < folderCount; i++)
             {
-                var newDocument = new Document {FileName = fileName};
-                newDocument.Saved = true;
-                newDocument.m_Name = reader.ReadString();
-
-                int folderCount = reader.ReadInt32();
-                m_TriggerInvalidate = false;
-
-                for (int counter = 0; counter < folderCount; counter++)
-                    newDocument.Folders.Add(new Folder(reader));
-                m_TriggerInvalidate = true;
-
-                stream.Close();
-                _instance = newDocument;
+                var deserializedFolder = deserialized.Folders[i];
+                var newFolder = new Folder();
+                newFolder.Name = deserializedFolder.Name;
+                foreach (var folder in deserializedFolder.Folders)
+                {
+                    newFolder.Add(folder);
+                }
+                foreach (var image in deserializedFolder.Images)
+                {
+                    newFolder.Add(image);
+                }
+                newDocument.Folders.Add(newFolder);
             }
+            m_TriggerInvalidate = true;
+            
+            _instance = newDocument;
+            _instance.Saved = true;
         }
 
-        public void WriteJson(string fileName)
+        public void Export(string fileName)
         {
-            string json = JsonSerializer.Serialize(new DocumentExport(this));
+            var json = JsonSerializer.Serialize(new DocumentExport(this));
             File.WriteAllText(fileName, json);
         }
-
 
         protected virtual void OnDocumentChanged(object sender, EventArgs e)
         {

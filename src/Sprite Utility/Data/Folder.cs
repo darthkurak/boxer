@@ -1,86 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace SpriteUtility.Data
 {
+    [Serializable]
     public class Folder
     {
-        public event EventHandler<EventArgs> NameChanged;
-
-        public ObservableCollection<object> Childrens { get; set; }
-
         private string _name;
 
+        [JsonProperty("name")]
         public string Name
         {
             get { return _name; }
             set
             {
-                if (_name != value)
+                if (_name == value) return;
+                _name = value;
+                if (NameChanged != null)
                 {
-                    _name = value;
                     NameChanged(this, EventArgs.Empty);
-                    Document.Instance.Invalidate(this, EventArgs.Empty);
                 }
+                Document.Instance.Invalidate(this, EventArgs.Empty);
             }
         }
+
+        public event EventHandler<EventArgs> NameChanged;
+
+        [JsonIgnore]
+        internal readonly ObservableCollection<object> Children;
+
+        [JsonProperty("folders")]
+        public List<Folder> Folders { get; set; }
+
+        [JsonProperty("images")]
+        public List<ImageData> Images { get; set; }
 
         public Folder()
         {
-            Childrens = new ObservableCollection<object>();
+            Children = new ObservableCollection<object>();
+            Folders = new List<Folder>();
+            Images = new List<ImageData>();
+
             _name = "New Folder";
-            NameChanged += OnNameChanged;
         }
 
-        protected virtual void OnNameChanged(object sender, EventArgs e)
+        public void Add(Folder folder)
         {
-
+            Folders.Add(folder);
+            Children.Add(folder);
         }
 
-        public Folder(BinaryReader reader) : this()
+        public void Remove(Folder folder)
         {
-            int counter;
-
-            _name = reader.ReadString();
-            int childCount = reader.ReadInt32();
-
-            for (counter = 0; counter < childCount; counter++)
-            {
-                var type = Type.GetType(reader.ReadString());
-
-                if (type == typeof(Folder))
-                {
-                    Childrens.Add(new Folder(reader));
-                }
-                else if (type == typeof(ImageData))
-                {
-                    Childrens.Add(new ImageData(reader));
-                }
-            }
+            Folders.Remove(folder);
+            Children.Remove(folder);
         }
 
-        public void Write(BinaryWriter writer)
+        public void Add(ImageData image)
         {
-            writer.Write(Name);
-            writer.Write(Childrens.Count);
-            foreach (object child in Childrens)
-            {
-                if (child is Folder)
-                {
-                    writer.Write(typeof(Folder).ToString());
-                    (child as Folder).Write(writer);
-                }
-                if (child is ImageData)
-                {
-                    writer.Write(typeof(ImageData).ToString());
-                    (child as ImageData).Write(writer);
-                }
-            }
+            Images.Add(image);
+            Children.Add(image);
+        }
+
+        public void Remove(ImageData image)
+        {
+            Images.Remove(image);
+            Children.Remove(image);
         }
     }
 }
