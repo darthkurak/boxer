@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -37,6 +38,12 @@
     <StartupObject>SpriteUtility.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="fwd.farseer">
+      <HintPath>..\..\lib\fwd.farseer.dll</HintPath>
+    </Reference>
+    <Reference Include="fwd.primitives">
+      <HintPath>..\..\lib\fwd.primitives.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="PresentationCore" />
@@ -94,6 +101,8 @@
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="JsonSerializer.cs" />
     <Compile Include="Primitives2D.cs" />
+    <Compile Include="Services\Shape.cs" />
+    <Compile Include="Services\TraceService.cs" />
     <Compile Include="Stubs\CustomSelection.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -278,6 +287,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
