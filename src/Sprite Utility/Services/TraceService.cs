@@ -14,9 +14,9 @@ namespace SpriteUtility.Services
 {
     public static class TraceService
     {
-        static TraceService()
+        public static void SetDisplayUnitToSimUnitRatio(float simulationRatio)
         {
-            ConvertUnits.SetDisplayUnitToSimUnitRatio(128f);
+            ConvertUnits.SetDisplayUnitToSimUnitRatio(simulationRatio);
         }
 
         public static Shape CreateSimpleShape(string imagePath, int timeout, StringBuilder spool, bool holeDetection = true, bool strict = false, TriangulationAlgorithm algorithm = TriangulationAlgorithm.Bayazit)

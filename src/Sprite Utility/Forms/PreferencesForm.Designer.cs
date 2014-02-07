@@ -45,16 +45,18 @@
             this.label6 = new System.Windows.Forms.Label();
             this.TrimToMinimalNonTransparentArea = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.documentStubColorButton = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.folderStubColorButton = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.imageStubColorButton = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
+            this.polygonStubColor = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
             this.frameStubColorButton = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.polygonStubColor = new System.Windows.Forms.Button();
+            this.imageStubColorButton = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.folderStubColorButton = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.documentStubColorButton = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.simulationRatioTextBox = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -229,59 +231,23 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Stubs Colors";
             // 
-            // documentStubColorButton
+            // polygonStubColor
             // 
-            this.documentStubColorButton.Location = new System.Drawing.Point(153, 23);
-            this.documentStubColorButton.Name = "documentStubColorButton";
-            this.documentStubColorButton.Size = new System.Drawing.Size(24, 23);
-            this.documentStubColorButton.TabIndex = 18;
-            this.documentStubColorButton.UseVisualStyleBackColor = true;
-            this.documentStubColorButton.Click += new System.EventHandler(this.ColorButtonClick);
+            this.polygonStubColor.Location = new System.Drawing.Point(339, 23);
+            this.polygonStubColor.Name = "polygonStubColor";
+            this.polygonStubColor.Size = new System.Drawing.Size(24, 23);
+            this.polygonStubColor.TabIndex = 17;
+            this.polygonStubColor.UseVisualStyleBackColor = true;
+            this.polygonStubColor.Click += new System.EventHandler(this.ColorButtonClick);
             // 
-            // label7
+            // label11
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 28);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(108, 13);
-            this.label7.TabIndex = 17;
-            this.label7.Text = "Document Stub Color";
-            // 
-            // folderStubColorButton
-            // 
-            this.folderStubColorButton.Location = new System.Drawing.Point(153, 60);
-            this.folderStubColorButton.Name = "folderStubColorButton";
-            this.folderStubColorButton.Size = new System.Drawing.Size(24, 23);
-            this.folderStubColorButton.TabIndex = 20;
-            this.folderStubColorButton.UseVisualStyleBackColor = true;
-            this.folderStubColorButton.Click += new System.EventHandler(this.ColorButtonClick);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 65);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(88, 13);
-            this.label8.TabIndex = 19;
-            this.label8.Text = "Folder Stub Color";
-            // 
-            // imageStubColorButton
-            // 
-            this.imageStubColorButton.Location = new System.Drawing.Point(153, 98);
-            this.imageStubColorButton.Name = "imageStubColorButton";
-            this.imageStubColorButton.Size = new System.Drawing.Size(24, 23);
-            this.imageStubColorButton.TabIndex = 22;
-            this.imageStubColorButton.UseVisualStyleBackColor = true;
-            this.imageStubColorButton.Click += new System.EventHandler(this.ColorButtonClick);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 103);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(88, 13);
-            this.label9.TabIndex = 21;
-            this.label9.Text = "Image Stub Color";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(183, 28);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(97, 13);
+            this.label11.TabIndex = 25;
+            this.label11.Text = "Polygon Stub Color";
             // 
             // frameStubColorButton
             // 
@@ -301,28 +267,83 @@
             this.label10.TabIndex = 23;
             this.label10.Text = "Frame Stub Color";
             // 
-            // label11
+            // imageStubColorButton
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(183, 28);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(97, 13);
-            this.label11.TabIndex = 25;
-            this.label11.Text = "Polygon Stub Color";
+            this.imageStubColorButton.Location = new System.Drawing.Point(153, 98);
+            this.imageStubColorButton.Name = "imageStubColorButton";
+            this.imageStubColorButton.Size = new System.Drawing.Size(24, 23);
+            this.imageStubColorButton.TabIndex = 22;
+            this.imageStubColorButton.UseVisualStyleBackColor = true;
+            this.imageStubColorButton.Click += new System.EventHandler(this.ColorButtonClick);
             // 
-            // polygonStubColor
+            // label9
             // 
-            this.polygonStubColor.Location = new System.Drawing.Point(339, 23);
-            this.polygonStubColor.Name = "polygonStubColor";
-            this.polygonStubColor.Size = new System.Drawing.Size(24, 23);
-            this.polygonStubColor.TabIndex = 17;
-            this.polygonStubColor.UseVisualStyleBackColor = true;
-            this.polygonStubColor.Click += new System.EventHandler(this.ColorButtonClick);
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 103);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(88, 13);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "Image Stub Color";
+            // 
+            // folderStubColorButton
+            // 
+            this.folderStubColorButton.Location = new System.Drawing.Point(153, 60);
+            this.folderStubColorButton.Name = "folderStubColorButton";
+            this.folderStubColorButton.Size = new System.Drawing.Size(24, 23);
+            this.folderStubColorButton.TabIndex = 20;
+            this.folderStubColorButton.UseVisualStyleBackColor = true;
+            this.folderStubColorButton.Click += new System.EventHandler(this.ColorButtonClick);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 65);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(88, 13);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Folder Stub Color";
+            // 
+            // documentStubColorButton
+            // 
+            this.documentStubColorButton.Location = new System.Drawing.Point(153, 23);
+            this.documentStubColorButton.Name = "documentStubColorButton";
+            this.documentStubColorButton.Size = new System.Drawing.Size(24, 23);
+            this.documentStubColorButton.TabIndex = 18;
+            this.documentStubColorButton.UseVisualStyleBackColor = true;
+            this.documentStubColorButton.Click += new System.EventHandler(this.ColorButtonClick);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 28);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(108, 13);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Document Stub Color";
+            // 
+            // simulationRatioTextBox
+            // 
+            this.simulationRatioTextBox.Location = new System.Drawing.Point(278, 66);
+            this.simulationRatioTextBox.Name = "simulationRatioTextBox";
+            this.simulationRatioTextBox.Size = new System.Drawing.Size(91, 20);
+            this.simulationRatioTextBox.TabIndex = 17;
+            this.simulationRatioTextBox.TextChanged += new System.EventHandler(this.simulationRatioTextBox_TextChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(189, 69);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(83, 13);
+            this.label12.TabIndex = 18;
+            this.label12.Text = "Simulation Ratio";
             // 
             // PreferencesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.simulationRatioTextBox);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.TrimToMinimalNonTransparentArea);
             this.Controls.Add(this.TrimBorderButton);
@@ -379,5 +400,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button documentStubColorButton;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox simulationRatioTextBox;
+        private System.Windows.Forms.Label label12;
     }
 }

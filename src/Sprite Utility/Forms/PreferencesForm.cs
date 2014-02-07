@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -29,6 +30,7 @@ namespace SpriteUtility
             frameStubColorButton.BackColor = MainForm.Preferences.FrameStubColor;
             folderStubColorButton.BackColor = MainForm.Preferences.FolderStubColor;
             polygonStubColor.BackColor = MainForm.Preferences.PolygonStubColor;
+            simulationRatioTextBox.Text = MainForm.Preferences.SimulationRatio.ToString("0.00", CultureInfo.InvariantCulture);
         }
 
         private void ColorButtonClick(object sender, EventArgs e)
@@ -81,6 +83,19 @@ namespace SpriteUtility
         private void PreferencesForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void simulationRatioTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (sender == simulationRatioTextBox)
+            {
+                float simulationRatio;
+                if (float.TryParse(simulationRatioTextBox.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out simulationRatio))
+                {
+                    MainForm.Preferences.SimulationRatio = simulationRatio;
+                }
+                MainForm.Preferences.CommitChanges();
+            }
         }
     }
 }

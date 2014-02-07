@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
+using SpriteUtility.Services;
 using Color = System.Drawing.Color;
 
 
@@ -29,7 +30,9 @@ namespace SpriteUtility
             FolderStubColor = Color.Bisque;
             ImageStubColor = Color.LightSkyBlue;
             FrameStubColor = Color.LightCyan;
-            PolygonStubColor = Color.AliceBlue;    
+            PolygonStubColor = Color.AliceBlue;
+
+            SimulationRatio = 128f;
 
             PreferencesSaved += OnPreferencesSaved;
         }
@@ -47,15 +50,27 @@ namespace SpriteUtility
             if (!File.Exists(Path))
                 return new Preferences();
 
-            FileStream stream = new FileStream(Path, FileMode.Open);
+            var stream = new FileStream(Path, FileMode.Open);
       
-            XmlSerializer serializer = new XmlSerializer(typeof(Preferences));
+            var serializer = new XmlSerializer(typeof(Preferences));
             var preferences = (Preferences)serializer.Deserialize(stream);
 
             stream.Close();
             stream.Dispose();
             
             return preferences;
+        }
+
+        private float _simulatioRatio;
+
+        public float SimulationRatio
+        {
+            get { return _simulatioRatio; }
+            set
+            {
+                _simulatioRatio = value;
+                TraceService.SetDisplayUnitToSimUnitRatio(_simulatioRatio);
+            }
         }
 
         public bool TrimToMinimalNonTransparentArea { get; set; }
