@@ -209,20 +209,22 @@ namespace SpriteUtility
             }
             else if (_selected is PolyStub && _contentPanel != null)
             {
+                HideAll();
+                _imageViewer.Visible = true;
                // _imageViewer.PolygonGroup = null;
                 _imageViewer.Polygon = ((PolyStub) _selected).Poly;
                 _polyForm.Poly = ((PolyStub) _selected).Poly;
                 _polyForm.Visible = true;
-                _polyGroupForm.Visible = false;
                 _viewerToolStrip.Select(Mode.Polygon);
             }
             else if (_selected is PolygonGroupStub && _contentPanel != null)
             {
+                HideAll();
+                _imageViewer.Visible = true;
                 _imageViewer.Polygon = null;
                 _imageViewer.PolygonGroup = ((PolygonGroupStub)_selected).PolygonGroup;
                 _polyGroupForm.Poly = ((PolygonGroupStub)_selected).PolygonGroup;
                 _polyGroupForm.Visible = true;
-                _polyForm.Visible = false;
                 _viewerToolStrip.Select(Mode.Polygon);
             }
         }
