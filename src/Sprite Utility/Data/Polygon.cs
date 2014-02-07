@@ -2,10 +2,10 @@
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 
-namespace SpriteUtility
+namespace SpriteUtility.Data
 {
     [Serializable]
-    public class Poly
+    public class Polygon
     {
         private readonly bool _invalidateTrigger;
         private readonly ObservableCollection<PolyPoint> _points;
@@ -36,7 +36,7 @@ namespace SpriteUtility
             }
         }
         
-        public Poly()
+        public Polygon()
         {
             _points = new ObservableCollection<PolyPoint>();
             _name = "New Poly";
@@ -62,6 +62,12 @@ namespace SpriteUtility
         public ImageFrame GetFrameParent()
         {
             return _frameParent;
+        }
+
+        public void Add(PolyPoint point)
+        {
+            point.SetPolygonParent(this);
+            Points.Add(point);
         }
     }
 }

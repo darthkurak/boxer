@@ -77,7 +77,7 @@
     <Compile Include="Data\Export\ImageFrameExport.cs" />
     <Compile Include="Data\Export\ImageDataExport.cs" />
     <Compile Include="Data\ImageFrame.cs" />
-    <Compile Include="Data\Poly.cs" />
+    <Compile Include="Data\Polygon.cs" />
     <Compile Include="Data\Export\PolygonExport.cs" />
     <Compile Include="Data\PolyPoint.cs" />
     <Compile Include="Data\Export\PolyPointExport.cs" />
@@ -186,6 +186,7 @@
     <Compile Include="Stubs\PreferencesStub.Designer.cs">
       <DependentUpon>PreferencesStub.cs</DependentUpon>
     </Compile>
+    <Compile Include="XmlColor.cs" />
     <EmbeddedResource Include="Forms\PolyForm.resx">
       <DependentUpon>PolyForm.cs</DependentUpon>
     </EmbeddedResource>

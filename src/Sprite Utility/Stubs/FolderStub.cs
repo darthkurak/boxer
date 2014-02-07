@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
+using fwd;
+using Newtonsoft.Json.Schema;
 using SpriteUtility.Data;
+using SpriteUtility.Services;
 
 namespace SpriteUtility
 {
@@ -92,7 +98,51 @@ namespace SpriteUtility
             {
                 foreach (var filename in dialog.FileNames)
                 {
-                    _folder.Add(new ImageData(filename));
+                    var imageData = new ImageData(filename);
+
+                    // Since we are adding new images we can stub in some
+                    //    conventional defaults (currently for trimmed frames only)
+
+                    if (MainForm.Preferences.TrimToMinimalNonTransparentArea)
+                    {
+                        foreach (var frame in imageData.Frames)
+                        {
+                            // Add an attack box stub
+                            var attack = new Polygon();
+                            attack.SetFrameParent(frame);
+                            attack.Name = "Attack";
+                            frame.Polygons.Add(attack);
+                            
+                            // Add a default foot box
+                            var foot = new Polygon();
+                            foot.SetFrameParent(frame);
+                            foot.Name = "Foot";
+
+                            var bottom = frame.TrimRectangle.Bottom;
+                            var left = frame.TrimRectangle.Left;
+                            var top = frame.TrimRectangle.Top;
+                            var right = frame.TrimRectangle.Right;
+                            var width = frame.TrimRectangle.Width;
+                            var height = frame.TrimRectangle.Height;
+
+                            var tl = new PolyPoint(left + (int)(width * 0.25f), bottom - 2);
+                            var tr = new PolyPoint(right - (int)(width * 0.25f), bottom - 2);
+                            var br = new PolyPoint(right - (int)(width * 0.25f), bottom);
+                            var bl = new PolyPoint(left + (int)(width * 0.25f), bottom);
+                            foot.Add(tl);
+                            foot.Add(tr);
+                            foot.Add(br);
+                            foot.Add(bl);
+
+                            frame.Polygons.Add(foot);
+
+                            // Set the center to best effort with no half-pixels
+                            frame.CenterPointX = left + (int)(width * 0.5f);
+                            frame.CenterPointY = top + (int)(height * 0.5f);
+                        }   
+                    }
+
+                    _folder.Add(imageData);
                 }
             }
             ImageViewer.Paused = false;

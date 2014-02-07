@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
+using SpriteUtility.Data;
 using SpriteUtility.Helpers;
 
 namespace SpriteUtility
@@ -29,7 +30,7 @@ namespace SpriteUtility
 
             MainForm.Preferences.PreferencesSaved += PreferencesOnPreferencesSaved;
 
-            foreach (Poly p in _frame.Polygons)
+            foreach (Polygon p in _frame.Polygons)
                 AddExpandable(new PolyStub(_frame, p, this));
         }
 
@@ -93,7 +94,7 @@ namespace SpriteUtility
 
             PolyCount.Text = "Polygons: " + _frame.Polygons.Count;
 
-            foreach (Poly p in _frame.Polygons)
+            foreach (Polygon p in _frame.Polygons)
             {
                 found = false;
                 foreach (PolyStub stub in Expandable)
@@ -111,7 +112,7 @@ namespace SpriteUtility
             for (counter = Expandable.Count - 1; counter >= 0; counter--)
             {
                 found = false;
-                foreach (Poly p in _frame.Polygons)
+                foreach (Polygon p in _frame.Polygons)
                 {
                     if (((PolyStub) Expandable[counter]).Poly == p)
                     {
@@ -128,7 +129,7 @@ namespace SpriteUtility
 
         private void MenuAddPolyClicked(object sender, EventArgs e)
         {
-            var poly = new Poly();
+            var poly = new Polygon();
             poly.SetFrameParent(_frame);
             _frame.Polygons.Add(poly);
         }

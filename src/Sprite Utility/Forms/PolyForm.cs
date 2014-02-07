@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using SpriteUtility.Data;
 
-namespace SpriteUtility
+namespace SpriteUtility.Forms
 {
     public partial class PolyForm : UserControl
     {
-        private Poly m_Poly;
+        private Polygon _polygon;
 
         public PolyForm()
         {
@@ -20,16 +15,16 @@ namespace SpriteUtility
 
         private void PolyName_TextChanged(object sender, EventArgs e)
         {
-            m_Poly.Name = PolyName.Text;
+            _polygon.Name = PolyName.Text;
         }
 
-        public Poly Poly
+        public Polygon Poly
         {
-            get { return m_Poly; }
+            get { return _polygon; }
             set 
             { 
-                m_Poly = value;
-                PolyName.Text = m_Poly.Name;
+                _polygon = value;
+                PolyName.Text = _polygon.Name;
             }
         }
     }

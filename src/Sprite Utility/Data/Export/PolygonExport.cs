@@ -13,7 +13,7 @@ namespace SpriteUtility.Data.Export
         [JsonProperty("points")]
         public List<PolyPointExport> Points { get; set; }
 
-        public PolygonExport(Poly poly)
+        public PolygonExport(Polygon poly)
         {
             Name = poly.Name;
             Points = new List<PolyPointExport>(poly.Points.Count);

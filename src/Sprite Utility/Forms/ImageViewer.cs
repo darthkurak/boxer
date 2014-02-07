@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpriteUtility.Data;
 using WinFormsGraphicsDevice;
 using Color = Microsoft.Xna.Framework.Color;
 using Point = Microsoft.Xna.Framework.Point;
@@ -41,7 +42,7 @@ namespace SpriteUtility
         private ImageFrame _image;
         private Mode _mode;
         private PolyPoint _moving;
-        private Poly _poly;
+        private Polygon _poly;
         private SpriteBatch _sprite;
         private Texture2D _texture;
 
@@ -71,7 +72,7 @@ namespace SpriteUtility
             set { _mode = value; }
         }
 
-        public Poly Polygon
+        public Polygon Polygon
         {
             get { return _poly; }
             set { _poly = value; }

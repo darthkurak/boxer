@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
@@ -8,68 +7,6 @@ using Color = System.Drawing.Color;
 
 namespace SpriteUtility
 {
-    public class XmlColor
-    {
-        private Color color_ = Color.Black;
-
-        public XmlColor() { }
-        public XmlColor(Color c) { color_ = c; }
-
-
-        public Color ToColor()
-        {
-            return color_;
-        }
-
-        public void FromColor(Color c)
-        {
-            color_ = c;
-        }
-
-        public static implicit operator Color(XmlColor x)
-        {
-            return x.ToColor();
-        }
-
-        public static implicit operator XmlColor(Color c)
-        {
-            return new XmlColor(c);
-        }
-
-        [XmlAttribute]
-        public string Web
-        {
-            get { return ColorTranslator.ToHtml(color_); }
-            set
-            {
-                try
-                {
-                    if (Alpha == 0xFF) // preserve named color value if possible
-                        color_ = ColorTranslator.FromHtml(value);
-                    else
-                        color_ = Color.FromArgb(Alpha, ColorTranslator.FromHtml(value));
-                }
-                catch (Exception)
-                {
-                    color_ = Color.Black;
-                }
-            }
-        }
-
-        [XmlAttribute]
-        public byte Alpha
-        {
-            get { return color_.A; }
-            set
-            {
-                if (value != color_.A) // avoid hammering named color if no alpha change
-                    color_ = Color.FromArgb(value, color_);
-            }
-        }
-
-        public bool ShouldSerializeAlpha() { return Alpha < 0xFF; }
-    }
-
     public class Preferences
     {
         public event EventHandler<EventArgs> PreferencesSaved;
@@ -102,15 +39,15 @@ namespace SpriteUtility
             
         }
 
-        private const string _path = "preferences.xml";
+        private const string Path = "preferences.xml";
 
 
         public static Preferences LoadPreferences()
         {
-            if (!File.Exists(_path))
+            if (!File.Exists(Path))
                 return new Preferences();
 
-            FileStream stream = new FileStream(_path, FileMode.Open);
+            FileStream stream = new FileStream(Path, FileMode.Open);
       
             XmlSerializer serializer = new XmlSerializer(typeof(Preferences));
             var preferences = (Preferences)serializer.Deserialize(stream);
@@ -150,7 +87,6 @@ namespace SpriteUtility
         [XmlElement(Type = typeof(XmlColor))]
         public Color PolygonStubColor { get; set; }
 
-
         public bool DrawLineArtForCenter { get; set; }
 
         public bool MarkAllAsOpen { get; set; }
@@ -167,12 +103,11 @@ namespace SpriteUtility
 
         public int ZoomIndex { get; set; }
 
-
         public void CommitChanges()
         {
-            FileStream stream = new FileStream(_path, FileMode.Create);
+            var stream = new FileStream(Path, FileMode.Create);
         
-            XmlSerializer serializer = new XmlSerializer(GetType());
+            var serializer = new XmlSerializer(GetType());
             serializer.Serialize(stream, this);
             stream.Close();
             stream.Dispose();

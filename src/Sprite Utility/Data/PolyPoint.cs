@@ -1,11 +1,11 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace SpriteUtility
+namespace SpriteUtility.Data
 {
     public class PolyPoint
     {
-        private Poly _polyParent;
+        private Polygon _polyParent;
         private int _x, _y;
 
         [JsonProperty("mapped_x")]
@@ -80,7 +80,7 @@ namespace SpriteUtility
 
         protected virtual void OnPointChanged(object sender, EventArgs e) { }
 
-        public void SetPolygonParent(Poly polygon)
+        public void SetPolygonParent(Polygon polygon)
         {
             _polyParent = polygon;
         }

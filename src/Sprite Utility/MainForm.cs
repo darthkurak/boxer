@@ -17,7 +17,7 @@ namespace SpriteUtility
             InitializeComponent();
 
             Preferences = Preferences.LoadPreferences();
-
+            
             MainTree.Initialize(ContentPane);
 
             DocumentStarted += OnDocumentStarted;

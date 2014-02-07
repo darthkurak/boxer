@@ -10,7 +10,7 @@ using FarseerPhysics.Common.Decomposition;
 using FarseerPhysics.Common.PolygonManipulation;
 using fwd;
 
-namespace ShapeTracer
+namespace SpriteUtility.Services
 {
     public static class TraceService
     {

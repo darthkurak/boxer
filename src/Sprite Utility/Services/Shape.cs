@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using fwd;
 
-namespace ShapeTracer
+namespace SpriteUtility.Services
 {
     public class Shape
     {

@@ -7,15 +7,16 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SpriteUtility.Data;
 
 namespace SpriteUtility
 {
     public sealed partial class PolyStub : CustomSelection
     {
         private ImageFrame _frame;
-        private Poly _poly;
+        private Polygon _poly;
 
-        public PolyStub(ImageFrame frame, Poly poly, CustomSelection parent) : base(parent)
+        public PolyStub(ImageFrame frame, Polygon poly, CustomSelection parent) : base(parent)
         {
             InitializeComponent();
 
@@ -55,7 +56,7 @@ namespace SpriteUtility
             PolyName.Text = _poly.Name + " (" + _poly.Points.Count.ToString() + " Points)";
         }
 
-        public Poly Poly
+        public Polygon Poly
         {
             get { return _poly; }
         }

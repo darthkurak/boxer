@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Drawing;
 using System.Windows.Forms;
+using SpriteUtility.Data;
 
 namespace SpriteUtility
 {

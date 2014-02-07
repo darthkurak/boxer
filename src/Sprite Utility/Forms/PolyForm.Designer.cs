@@ -1,4 +1,4 @@
-﻿namespace SpriteUtility
+﻿namespace SpriteUtility.Forms
 {
     partial class PolyForm
     {

@@ -7,7 +7,7 @@ using System.IO;
 using Newtonsoft.Json;
 using SpriteUtility.Helpers;
 
-namespace SpriteUtility
+namespace SpriteUtility.Data
 {
     [Serializable]
     public class ImageData
@@ -64,6 +64,7 @@ namespace SpriteUtility
 
                             var frame = new ImageFrame(ms.ToArray(), image.Width, image.Height)
                             {
+                                ImagePath = fileName,
                                 CenterPointX = image.Width/2,
                                 CenterPointY = image.Height/2,
                                 Thumbnail = ImageHelper.ImageToByteArray(thumbnail)

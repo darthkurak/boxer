@@ -4,18 +4,12 @@ using System.Drawing;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace SpriteUtility
+namespace SpriteUtility.Data
 {
     [Serializable]
     public class ImageFrame
     {
-        private readonly byte[] _data;
-        private readonly int _height;
-        private readonly ObservableCollection<Poly> _polygons;
-        private readonly int _width;
         private Rectangle _trimRectangle;
-        private int _centerPointX;
-        private int _centerPointY;
         private int _duration; //in 1/100 second
         private bool _isOpen;
 
@@ -57,9 +51,9 @@ namespace SpriteUtility
             {
                 if (MainForm.Preferences.TrimToMinimalNonTransparentArea)
                 {
-                    return _centerPointX - _trimRectangle.X;
+                    return CenterPointX - _trimRectangle.X;
                 }
-                return _centerPointX;
+                return CenterPointX;
             }
         }
 
@@ -70,73 +64,55 @@ namespace SpriteUtility
             {
                 if (MainForm.Preferences.TrimToMinimalNonTransparentArea)
                 {
-                    return _centerPointY - _trimRectangle.Y;
+                    return CenterPointY - _trimRectangle.Y;
                 }
-                return _centerPointY;
+                return CenterPointY;
             }
         }
 
         [JsonProperty("center_point_x")]
-        public int CenterPointX
-        {
-            get { return _centerPointX; }
-            set { _centerPointX = value; }
-        }
+        public int CenterPointX { get; set; }
 
         [JsonProperty("center_point_y")]
-        public int CenterPointY
-        {
-            get { return _centerPointY; }
-            set { _centerPointY = value; }
-        }
+        public int CenterPointY { get; set; }
 
         [JsonProperty("data")]
-        public byte[] Data
-        {
-            get { return _data; }
-        }
+        public byte[] Data { get; private set; }
 
         [JsonProperty("width")]
-        public int Width
-        {
-            get { return _width; }
-        }
+        public int Width { get; private set; }
 
         [JsonProperty("height")]
-        public int Height
-        {
-            get { return _height; }
-        }
+        public int Height { get; private set; }
 
         [JsonProperty("polygons")]
-        public ObservableCollection<Poly> Polygons
-        {
-            get { return _polygons; }
-        }
+        public ObservableCollection<Polygon> Polygons { get; private set; }
 
         [JsonProperty("thumbnail")]
         public byte[] Thumbnail { get; set; }
 
+        [JsonProperty("image_path")]
+        public string ImagePath { get; set; }
+
         [JsonConstructor]
         public ImageFrame(byte[] data, int width, int height) : this(width, height)
         {
-            _data = data;
-            using (var imageData = new MemoryStream(_data))
+            Data = data;
+            using (var imageData = new MemoryStream(Data))
             {
-                var trimRectangle = BitmapTools.TrimRect(new Bitmap(imageData));
-                _trimRectangle = new Rectangle(trimRectangle.X, trimRectangle.Y, trimRectangle.Width, trimRectangle.Height);
+                _trimRectangle = BitmapTools.TrimRect(new Bitmap(imageData)); ;
             }
         }
 
         public ImageFrame(int width, int height)
         {
-            _data = null;
-            _width = width;
-            _height = height;
-            _polygons = new ObservableCollection<Poly>();
+            Data = null;
+            Width = width;
+            Height = height;
+            Polygons = new ObservableCollection<Polygon>();
 
-            _centerPointX = _centerPointY = 0;
-            _polygons.CollectionChanged += PolyCollectionChanged;
+            CenterPointX = CenterPointY = 0;
+            Polygons.CollectionChanged += PolyCollectionChanged;
 
             CenterPointChanged += OnCenterPointChanged;
         }
