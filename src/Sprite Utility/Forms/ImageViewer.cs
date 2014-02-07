@@ -17,7 +17,8 @@ namespace SpriteUtility
     public enum Mode
     {
         Center,
-        Polygon
+        Polygon,
+        PolygonGroup
     }
 
     public class ImageViewer : GraphicsDeviceControl
@@ -43,6 +44,7 @@ namespace SpriteUtility
         private Mode _mode;
         private PolyPoint _moving;
         private Polygon _poly;
+        private PolygonGroup _polyGroup;
         private SpriteBatch _sprite;
         private Texture2D _texture;
 
@@ -78,6 +80,12 @@ namespace SpriteUtility
             set { _poly = value; }
         }
 
+        public PolygonGroup PolygonGroup
+        {
+            get { return _polyGroup; }
+            set { _polyGroup = value; }
+        }
+
         public static bool Paused
         {
             get { return _paused; }
@@ -111,6 +119,7 @@ namespace SpriteUtility
             _mode = Mode.Center;
             _paused = false;
             _poly = null;
+            _polyGroup = null;
             _moving = null;
             _arrowNormCursor = new Cursor("ArrowNorm.cur");
             _arrowOverCursor = new Cursor("ArrowOver.cur");
@@ -220,46 +229,130 @@ namespace SpriteUtility
                 DrawCenter(true);
             }
 
-            //draw polygon points
-            if (_poly != null)
+            //draw polygon group points
+            if (_polyGroup != null)
             {
-                foreach (PolyPoint p in _poly.Points)
+                Polygon selectedPoly = null;
+
+                foreach (var polygon in _polyGroup.Polygons)
                 {
-                    Vector2 vector = _camera2D.GetScreenCoordinates(new Vector2(p.X, p.Y));
-                    Vector2 centerVector = ShiftVectorToPixelCenter(vector);
-
-                    int centerX = (int) centerVector.X - _polygonRectangle.Width/2;
-                    int centerY = (int) centerVector.Y - _polygonRectangle.Height/2;
-                    var polyRect = new Rectangle(centerX, centerY, _polygonRectangle.Width, _polygonRectangle.Height);
-                    _sprite.DrawRectangle(polyRect, ConvertDrawingColorToXNAColor(MainForm.Preferences.PolygonColor));
-                }
-            }
-
-            //draw lines between polygon points
-            if (_poly != null && _poly.Points.Count >= 2)
-            {
-                for (int i = 0; i < _poly.Points.Count; i++)
-                {
-                    PolyPoint firstPoly = _poly.Points[i];
-
-                    PolyPoint secondPoly;
-
-                    if (i == _poly.Points.Count - 1)
+                    if (_poly != null && _poly == polygon)
                     {
-                        secondPoly = _poly.Points[0];
+                        selectedPoly = polygon;
                     }
                     else
                     {
-                        secondPoly = _poly.Points[i + 1];
+                        foreach (PolyPoint p in polygon.Points)
+                        {
+
+                            Vector2 vector = _camera2D.GetScreenCoordinates(new Vector2(p.X, p.Y));
+                            Vector2 centerVector = ShiftVectorToPixelCenter(vector);
+
+                            int centerX = (int) centerVector.X - _polygonRectangle.Width/2;
+                            int centerY = (int) centerVector.Y - _polygonRectangle.Height/2;
+                            var polyRect = new Rectangle(centerX, centerY, _polygonRectangle.Width,
+                                _polygonRectangle.Height);
+
+
+                                _sprite.DrawRectangle(polyRect,
+                                    ConvertDrawingColorToXNAColor(MainForm.Preferences.PolygonColor));
+                        }
                     }
+                }
 
-                    Vector2 firstVector = _camera2D.GetScreenCoordinates(new Vector2(firstPoly.X, firstPoly.Y));
-                    Vector2 secondVector = _camera2D.GetScreenCoordinates(new Vector2(secondPoly.X, secondPoly.Y));
+                if (selectedPoly != null)
+                {
+                    foreach (PolyPoint p in selectedPoly.Points)
+                    {
 
-                    Vector2 firstCenterVector = ShiftVectorToPixelCenter(firstVector);
-                    Vector2 secondCenterVector = ShiftVectorToPixelCenter(secondVector);
+                        Vector2 vector = _camera2D.GetScreenCoordinates(new Vector2(p.X, p.Y));
+                        Vector2 centerVector = ShiftVectorToPixelCenter(vector);
 
-                    _sprite.DrawLine(firstCenterVector, secondCenterVector, ConvertDrawingColorToXNAColor(MainForm.Preferences.PolygonColor));
+                        int centerX = (int)centerVector.X - _polygonRectangle.Width / 2;
+                        int centerY = (int)centerVector.Y - _polygonRectangle.Height / 2;
+                        var polyRect = new Rectangle(centerX, centerY, _polygonRectangle.Width,
+                            _polygonRectangle.Height);
+
+
+                        _sprite.DrawRectangle(polyRect,
+                            ConvertDrawingColorToXNAColor(System.Drawing.Color.Red));
+                    }
+                }
+
+                //draw lines between points
+                foreach (var polygon in _polyGroup.Polygons)
+                {
+                    if (polygon.Points.Count >= 2)
+                    {
+                        if (selectedPoly != polygon)
+                        {
+                            for (int i = 0; i < polygon.Points.Count; i++)
+                            {
+                                PolyPoint firstPoly = polygon.Points[i];
+
+                                PolyPoint secondPoly;
+
+                                    if (i == polygon.Points.Count - 1)
+                                    {
+                                        secondPoly = polygon.Points[0];
+                                    }
+                                    else
+                                    {
+                                        secondPoly = polygon.Points[i + 1];
+                                    }
+
+                                if (polygon.Points.Count == 2 && secondPoly == polygon.Points[0])
+                                    continue;
+                               
+                                Vector2 firstVector =
+                                    _camera2D.GetScreenCoordinates(new Vector2(firstPoly.X, firstPoly.Y));
+                                Vector2 secondVector =
+                                    _camera2D.GetScreenCoordinates(new Vector2(secondPoly.X, secondPoly.Y));
+
+                                Vector2 firstCenterVector = ShiftVectorToPixelCenter(firstVector);
+                                Vector2 secondCenterVector = ShiftVectorToPixelCenter(secondVector);
+
+                                    _sprite.DrawLine(firstCenterVector, secondCenterVector,
+                                        ConvertDrawingColorToXNAColor(MainForm.Preferences.PolygonColor));
+                            }
+                        }
+                    }
+                }
+
+                if (selectedPoly != null)
+                {
+                    if (selectedPoly.Points.Count >= 2)
+                    {
+                        for (int i = 0; i < selectedPoly.Points.Count; i++)
+                            {
+                                PolyPoint firstPoly = selectedPoly.Points[i];
+
+                                PolyPoint secondPoly;
+
+                                if (i == selectedPoly.Points.Count - 1)
+                                {
+                                    secondPoly = selectedPoly.Points[0];
+                                }
+                                else
+                                {
+                                    secondPoly = selectedPoly.Points[i + 1];
+                                }
+
+                                if (selectedPoly.Points.Count == 2 && secondPoly == selectedPoly.Points[0])
+                                    continue;
+
+                                Vector2 firstVector =
+                                    _camera2D.GetScreenCoordinates(new Vector2(firstPoly.X, firstPoly.Y));
+                                Vector2 secondVector =
+                                    _camera2D.GetScreenCoordinates(new Vector2(secondPoly.X, secondPoly.Y));
+
+                                Vector2 firstCenterVector = ShiftVectorToPixelCenter(firstVector);
+                                Vector2 secondCenterVector = ShiftVectorToPixelCenter(secondVector);
+
+                                _sprite.DrawLine(firstCenterVector, secondCenterVector,
+                                    ConvertDrawingColorToXNAColor(System.Drawing.Color.Red));
+                            }               
+                    }
                 }
             }
 
@@ -305,9 +398,30 @@ namespace SpriteUtility
             //delete polygon with delete key
             if (e.KeyCode == Keys.Delete)
             {
-                _image.Polygons.Remove(_poly);
-                _poly = null;
-                //  Draw();
+                if (_poly != null)
+                {
+                    PolygonGroup polyGroupContainingPoly = null;
+
+                    foreach (var polyGroup in _image.PolygonGroups)
+                    {
+                        if (polyGroup.Polygons.Contains(_poly))
+                        {
+                            polyGroupContainingPoly = polyGroup;
+                            break;
+                        }
+                    }
+
+                    if (polyGroupContainingPoly != null)
+                    {
+                        polyGroupContainingPoly.Polygons.Remove(_poly);
+                        _poly = null;
+                    }
+                }
+                else if (_polyGroup != null)
+                {
+                    _image.PolygonGroups.Remove(_polyGroup);
+                    _polyGroup = null;
+                }
             }
 
             //set center mode with c key
@@ -368,8 +482,7 @@ namespace SpriteUtility
                     if (_moving == null)
                     {
                         var polyWorldCenter = _camera2D.GetWorldCoordinates(new Vector2(e.X, e.Y));
-                        var p = new PolyPoint((int) polyWorldCenter.X, (int) polyWorldCenter.Y);
-                        p.SetPolygonParent(_poly);
+                        var p = new PolyPoint((int) polyWorldCenter.X, (int) polyWorldCenter.Y, _poly);
                         _poly.Points.Add(p);
                         _moving = p;
                     }
@@ -603,6 +716,7 @@ namespace SpriteUtility
             _polygonRectangle = new Rectangle(0, 0, 8, 8);
             _imageRectangle = new Rectangle(-1, -1, _image.Width + 1, _image.Height + 1);
             _poly = null;
+            _polyGroup = null;
         }
 
         private void Refresh(object sender, EventArgs e)

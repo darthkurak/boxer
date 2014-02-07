@@ -3,10 +3,13 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using SpriteUtility.Data;
+using SpriteUtility.Forms;
 using SpriteUtility.Helpers;
+using SpriteUtility.Services;
 
 namespace SpriteUtility
 {
@@ -19,19 +22,19 @@ namespace SpriteUtility
             InitializeComponent();
             _frame = frame;
             SetFrameLabel();
-            PolyCount.Text = "Polygons: " + _frame.Polygons.Count;
+            PolyCount.Text = "Polygon Groups: " + _frame.PolygonGroups.Count;
             SetContextMenu();
             Thumbnail.BackgroundImage = ImageHelper.ByteArrayToImage(_frame.Thumbnail);
             parent.Image.Frames.CollectionChanged += Image_FramesChanged;
-            _frame.Polygons.CollectionChanged += PolysChanged;
+            _frame.PolygonGroups.CollectionChanged += PolyGroupsChanged;
             _frame.IsOpenChanged += OnIsOpenChanged;
 
             SetColor();
 
             MainForm.Preferences.PreferencesSaved += PreferencesOnPreferencesSaved;
 
-            foreach (Polygon p in _frame.Polygons)
-                AddExpandable(new PolyStub(_frame, p, this));
+            foreach (PolygonGroup p in _frame.PolygonGroups)
+                AddExpandable(new PolygonGroupStub(p, this));
         }
 
         private void PreferencesOnPreferencesSaved(object sender, EventArgs eventArgs)
@@ -87,34 +90,34 @@ namespace SpriteUtility
             return null;
         }
 
-        private void PolysChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void PolyGroupsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             bool found;
             int counter;
 
-            PolyCount.Text = "Polygons: " + _frame.Polygons.Count;
+            PolyCount.Text = "Polygons Groups: " + _frame.PolygonGroups.Count;
 
-            foreach (Polygon p in _frame.Polygons)
+            foreach (PolygonGroup p in _frame.PolygonGroups)
             {
                 found = false;
-                foreach (PolyStub stub in Expandable)
+                foreach (PolygonGroupStub stub in Expandable)
                 {
-                    if (stub.Poly == p)
+                    if (stub.PolygonGroup == p)
                     {
                         found = true;
                         break;
                     }
                 }
                 if (!found)
-                    AddExpandable(new PolyStub(_frame, p, this));
+                    AddExpandable(new PolygonGroupStub(p, this));
             }
 
             for (counter = Expandable.Count - 1; counter >= 0; counter--)
             {
                 found = false;
-                foreach (Polygon p in _frame.Polygons)
+                foreach (PolygonGroup p in _frame.PolygonGroups)
                 {
-                    if (((PolyStub) Expandable[counter]).Poly == p)
+                    if (((PolygonGroupStub)Expandable[counter]).PolygonGroup == p)
                     {
                         found = true;
                         break;
@@ -127,11 +130,10 @@ namespace SpriteUtility
             Panel.Reorder();
         }
 
-        private void MenuAddPolyClicked(object sender, EventArgs e)
+        private void MenuAddPolyGroupClicked(object sender, EventArgs e)
         {
-            var poly = new Polygon();
-            poly.SetFrameParent(_frame);
-            _frame.Polygons.Add(poly);
+            var poly = new PolygonGroup(_frame);
+            _frame.PolygonGroups.Add(poly);
         }
 
         private void SetFrameLabel()
@@ -162,9 +164,48 @@ namespace SpriteUtility
             ContextMenu =
                 new ContextMenu(new[]
                 {
-                    new MenuItem("Add Poly", MenuAddPolyClicked), new MenuItem(label, MenuMarkAsOpenClicked),
+                    new MenuItem("Add Polygon Group", MenuAddPolyGroupClicked), new MenuItem(label, MenuMarkAsOpenClicked),
+                    new MenuItem("Auto-Trace", MenuAutoTraceClicked),
                     new MenuItem("Remove Frame", MenuRemoveImage)
                 });
+        }
+
+        private void MenuAutoTraceClicked(object sender, EventArgs e)
+        {
+            var autoTraceForm = new AutoTraceForm();
+            autoTraceForm.ShowDialog();
+            using (var ms = new MemoryStream(_frame.Data))
+            {
+                var imageBitmap = Image.FromStream(ms);
+                var errorBuilder = new StringBuilder();
+                var shape = TraceService.CreateComplexShape(imageBitmap, 20000, errorBuilder,
+                    AutoTraceForm.AutoTraceFormResult.HullTolerence,
+                    AutoTraceForm.AutoTraceFormResult.AlphaTolerence,
+                    AutoTraceForm.AutoTraceFormResult.MultiPartDetection,
+                    AutoTraceForm.AutoTraceFormResult.HoleDetection);
+
+
+                if (shape != null)
+                {
+                    var polygonGroup = new PolygonGroup(_frame);
+                    var count = 1;
+                    foreach (var polygon in shape.Vertices)
+                    {
+                        var poly = new Polygon(polygonGroup) {Name = "Polygon " + count};
+
+                        foreach (var point in polygon)
+                        {
+                            poly.Points.Add(new PolyPoint((int) point.X, (int) point.Y, poly));
+                        }
+
+                        polygonGroup.Polygons.Add(poly);
+
+                        count++;
+                    }
+                }
+
+                ms.Close();
+            }
         }
 
         private void MenuMarkAsOpenClicked(object sender, EventArgs e)
@@ -193,7 +234,7 @@ namespace SpriteUtility
         private void MenuRemoveImage(object sender, EventArgs e)
         {
             Panel.ImageViewer.Visible = false;
-            _frame.Polygons.Clear();
+            _frame.PolygonGroups.Clear();
             var imageStub = ParentSelection as ImageStub;
             if (imageStub != null) imageStub.Image.Frames.Remove(_frame);
         }

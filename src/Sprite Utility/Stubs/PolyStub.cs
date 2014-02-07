@@ -13,14 +13,14 @@ namespace SpriteUtility
 {
     public sealed partial class PolyStub : CustomSelection
     {
-        private ImageFrame _frame;
+        private PolygonGroup _polygonGroup;
         private Polygon _poly;
 
-        public PolyStub(ImageFrame frame, Polygon poly, CustomSelection parent) : base(parent)
+        public PolyStub(PolygonGroup polygonGroup, Polygon poly, CustomSelection parent) : base(parent)
         {
             InitializeComponent();
 
-            _frame = frame;
+            _polygonGroup = polygonGroup;
             _poly = poly;
             PolyName.Text = _poly.Name + " (" + _poly.Points.Count.ToString() + " Points)";
 
@@ -61,14 +61,14 @@ namespace SpriteUtility
             get { return _poly; }
         }
 
-        public ImageFrame Frame
+        public PolygonGroup PolygonGroup
         {
-            get { return _frame; }
+            get { return _polygonGroup; }
         }
 
         private void MenuPolyDeleteClick(object sender, EventArgs e)
         {
-            Frame.Polygons.Remove(_poly);
+            PolygonGroup.Polygons.Remove(_poly);
             _poly = null;
 
             Panel.ImageViewer.RedrawAfterDeletePolygon();

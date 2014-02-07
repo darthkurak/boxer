@@ -31,7 +31,7 @@ namespace SpriteUtility
             ImageStubColor = Color.LightSkyBlue;
             FrameStubColor = Color.LightCyan;
             PolygonStubColor = Color.AliceBlue;
-
+            PolygonSelectedColor = Color.Red;
             SimulationRatio = 128f;
 
             PreferencesSaved += OnPreferencesSaved;
@@ -72,6 +72,9 @@ namespace SpriteUtility
                 TraceService.SetDisplayUnitToSimUnitRatio(_simulatioRatio);
             }
         }
+
+        [XmlElement(Type = typeof(XmlColor))]
+        public Color PolygonSelectedColor { get; set; }
 
         public bool TrimToMinimalNonTransparentArea { get; set; }
 

@@ -1,26 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
 using Newtonsoft.Json;
 
 namespace SpriteUtility.Data
 {
-    [Serializable]
-    public class Polygon
+    public class PolygonGroup
     {
         private readonly bool _invalidateTrigger;
-        private readonly ObservableCollection<PolyPoint> _points;
+        private ImageFrame _frameParent;
         private string _name;
-        private PolygonGroup _polygonGroupParent;
+        private readonly ObservableCollection<Polygon> _polygons;
 
-        public PolygonGroup PolygonGroupParent
+        public ImageFrame FrameParent
         {
-            get { return _polygonGroupParent; }
+            get { return _frameParent; }
         }
 
-        [JsonProperty("points")]
-        public ObservableCollection<PolyPoint> Points
+        [JsonProperty("polygons")]
+        public ObservableCollection<Polygon> Polygons
         {
-            get { return _points; }
+            get { return _polygons; }
         }
 
         [JsonProperty("name")]
@@ -41,27 +43,28 @@ namespace SpriteUtility.Data
             }
         }
 
-        public Polygon()
+        public PolygonGroup()
         {
-            _points = new ObservableCollection<PolyPoint>();
-            _name = "New Poly";
+            _polygons = new ObservableCollection<Polygon>();
+            _name = "Body";
             _invalidateTrigger = true;
-            _points.CollectionChanged += PointCollectionChanged;
+            _polygons.CollectionChanged += PolygonsCollectionChanged;
         }
 
-        public Polygon(PolygonGroup polygonGroupParent) : this()
+        public PolygonGroup(ImageFrame frameParent) : this()
         {
-            _polygonGroupParent = polygonGroupParent;
+            _frameParent = frameParent;
         }
 
-        public void SetPolygonGroupParent(PolygonGroup polygonGroupParent)
+        public void SetFrameParent(ImageFrame frameParent)
         {
-            _polygonGroupParent = polygonGroupParent;
+            _frameParent = frameParent;
         }
-
         public event EventHandler<EventArgs> NameChanged;
 
-        private void PointCollectionChanged(object sender, EventArgs e)
+        protected virtual void OnPointsChanged(object sender, EventArgs e) { }
+
+        private void PolygonsCollectionChanged(object sender, EventArgs e)
         {
             if (!_invalidateTrigger) return;
             Document.Instance.Invalidate(this, EventArgs.Empty);

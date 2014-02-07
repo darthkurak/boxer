@@ -15,7 +15,7 @@ namespace SpriteUtility.Data
             {
                 if (MainForm.Preferences.TrimToMinimalNonTransparentArea)
                 {
-                    return _x - _polyParent.GetFrameParent().TrimRectangle.X;
+                    return _x - _polyParent.PolygonGroupParent.FrameParent.TrimRectangle.X;
                 }
                 return _x;
             }
@@ -28,7 +28,7 @@ namespace SpriteUtility.Data
             {
                 if (MainForm.Preferences.TrimToMinimalNonTransparentArea)
                 {
-                    return _y - _polyParent.GetFrameParent().TrimRectangle.Y;
+                    return _y - _polyParent.PolygonGroupParent.FrameParent.TrimRectangle.Y;
                 }
                 return _y;
             }
@@ -68,6 +68,7 @@ namespace SpriteUtility.Data
             }
         }
 
+
         [JsonConstructor]
         public PolyPoint(int x, int y)
         {
@@ -75,14 +76,20 @@ namespace SpriteUtility.Data
             _y = y;
             PointChanged += OnPointChanged;
         }
+
+        public PolyPoint(int x, int y, Polygon polyParent) : this(x,y)
+        {
+            _polyParent = polyParent;
+        }
+
+        public void SetPolygonParent(Polygon polyParent)
+        {
+            _polyParent = polyParent;
+        }
         
         public event EventHandler<EventArgs> PointChanged;
 
         protected virtual void OnPointChanged(object sender, EventArgs e) { }
 
-        public void SetPolygonParent(Polygon polygon)
-        {
-            _polyParent = polygon;
-        }
     }
 }

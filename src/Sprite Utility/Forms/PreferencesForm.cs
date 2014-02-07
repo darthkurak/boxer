@@ -31,6 +31,7 @@ namespace SpriteUtility
             folderStubColorButton.BackColor = MainForm.Preferences.FolderStubColor;
             polygonStubColor.BackColor = MainForm.Preferences.PolygonStubColor;
             simulationRatioTextBox.Text = MainForm.Preferences.SimulationRatio.ToString("0.00", CultureInfo.InvariantCulture);
+            PolygonSelectedColorButton.BackColor = Ma
         }
 
         private void ColorButtonClick(object sender, EventArgs e)

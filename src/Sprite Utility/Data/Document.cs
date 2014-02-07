@@ -157,12 +157,16 @@ namespace SpriteUtility
                     {
                         foreach (var frame in image.Frames)
                         {
-                            foreach (var polygon in frame.Polygons)
+                            foreach (var polygonGroup in frame.PolygonGroups)
                             {
-                                polygon.SetFrameParent(frame);
-                                foreach (var point in polygon.Points)
+                                polygonGroup.SetFrameParent(frame);
+                                foreach (var polygon in polygonGroup.Polygons)
                                 {
-                                    point.SetPolygonParent(polygon);
+                                    polygon.SetPolygonGroupParent(polygonGroup);
+                                    foreach (var point in polygon.Points)
+                                    {
+                                        point.SetPolygonParent(polygon);
+                                    }
                                 }
                             }
                         }

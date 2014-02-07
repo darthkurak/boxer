@@ -72,6 +72,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Data\Export\FolderExport.cs" />
+    <Compile Include="Data\Export\PolygonGroupExport.cs" />
     <Compile Include="Data\Folder.cs" />
     <Compile Include="Data\Export\DocumentExport.cs" />
     <Compile Include="Data\Export\ImageFrameExport.cs" />
@@ -79,8 +80,22 @@
     <Compile Include="Data\ImageFrame.cs" />
     <Compile Include="Data\Polygon.cs" />
     <Compile Include="Data\Export\PolygonExport.cs" />
+    <Compile Include="Data\PolygonGroup.cs" />
     <Compile Include="Data\PolyPoint.cs" />
     <Compile Include="Data\Export\PolyPointExport.cs" />
+    <Compile Include="Forms\AutoTraceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AutoTraceForm.Designer.cs">
+      <DependentUpon>AutoTraceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AutoTraceFormResult.cs" />
+    <Compile Include="Forms\PolyGroupForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\PolyGroupForm.Designer.cs">
+      <DependentUpon>PolyGroupForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\PolyForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -143,6 +158,12 @@
     <Compile Include="Stubs\FolderStub.Designer.cs">
       <DependentUpon>FolderStub.cs</DependentUpon>
     </Compile>
+    <Compile Include="Stubs\PolygonGroupStub.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Stubs\PolygonGroupStub.Designer.cs">
+      <DependentUpon>PolygonGroupStub.cs</DependentUpon>
+    </Compile>
     <Compile Include="Stubs\ImageStub.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -187,6 +208,12 @@
       <DependentUpon>PreferencesStub.cs</DependentUpon>
     </Compile>
     <Compile Include="XmlColor.cs" />
+    <EmbeddedResource Include="Forms\AutoTraceForm.resx">
+      <DependentUpon>AutoTraceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PolyGroupForm.resx">
+      <DependentUpon>PolyGroupForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\PolyForm.resx">
       <DependentUpon>PolyForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -210,6 +237,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Stubs\FolderStub.resx">
       <DependentUpon>FolderStub.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stubs\PolygonGroupStub.resx">
+      <DependentUpon>PolygonGroupStub.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Stubs\ImageStub.resx">
       <DependentUpon>ImageStub.cs</DependentUpon>
