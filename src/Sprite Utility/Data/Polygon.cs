@@ -36,7 +36,8 @@ namespace SpriteUtility.Data
                     {
                         NameChanged(this, EventArgs.Empty);
                     }
-                    Document.Instance.Invalidate(this, EventArgs.Empty);
+
+                    Document.TryInvalidate(this, EventArgs.Empty);
                 }
             }
         }
@@ -64,7 +65,7 @@ namespace SpriteUtility.Data
         private void PointCollectionChanged(object sender, EventArgs e)
         {
             if (!_invalidateTrigger) return;
-            Document.Instance.Invalidate(this, EventArgs.Empty);
+            Document.TryInvalidate(this, EventArgs.Empty);
         }
 
     }

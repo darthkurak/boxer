@@ -47,7 +47,7 @@ namespace SpriteUtility.Data
                     {
                         PointChanged(this, EventArgs.Empty);
                     }
-                    Document.Instance.Invalidate(this, EventArgs.Empty);
+                    Document.TryInvalidate(this, EventArgs.Empty);
                 }
             }
         }
@@ -64,7 +64,7 @@ namespace SpriteUtility.Data
                 {
                     PointChanged(this, EventArgs.Empty);
                 }
-                Document.Instance.Invalidate(this, EventArgs.Empty);
+                Document.TryInvalidate(this, EventArgs.Empty);
             }
         }
 

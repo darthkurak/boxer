@@ -18,7 +18,13 @@ namespace SpriteUtility
         private static Document _instance;
         public static Document Instance
         {
-            get { return _instance ?? (_instance = new Document()); }
+            get { return _instance; }
+        }
+
+        public static void TryInvalidate(object sender, EventArgs e)
+        {
+            if (_instance != null)
+                _instance.Invalidate(sender, e);
         }
 
         public Document()

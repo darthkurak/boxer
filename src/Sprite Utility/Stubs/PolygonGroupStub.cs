@@ -103,11 +103,11 @@ namespace SpriteUtility
         {
             if (IsSelected)
             {
-                BackColor = MainForm.Preferences.ImageStubColor;
+                BackColor = MainForm.Preferences.PolygonGroupStubColor;
             }
             else
             {
-                BackColor = Color.FromArgb(100, MainForm.Preferences.ImageStubColor);
+                BackColor = Color.FromArgb(100, MainForm.Preferences.PolygonGroupStubColor);
             }
         }
 

@@ -32,7 +32,7 @@ namespace SpriteUtility.Data
                     {
                         IsOpenChanged(this, EventArgs.Empty);
                     }
-                    Document.Instance.Invalidate(this, EventArgs.Empty);
+                    Document.TryInvalidate(this, EventArgs.Empty);
                 }
             }
         }
@@ -125,13 +125,13 @@ namespace SpriteUtility.Data
 
         private void PolygonGroupsCollectionChanged(object sender, EventArgs e)
         {
-            Document.Instance.Invalidate(this, EventArgs.Empty);
+            Document.TryInvalidate(this, EventArgs.Empty);
         }
 
         public void UpdateCenterPoint()
         {
             CenterPointChanged(this, EventArgs.Empty);
-            Document.Instance.Invalidate(this, EventArgs.Empty);
+            Document.TryInvalidate(this, EventArgs.Empty);
         }
     }
 }

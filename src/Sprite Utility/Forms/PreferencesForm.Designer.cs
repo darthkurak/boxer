@@ -60,6 +60,8 @@
             this.PolygonSelectedColorButton = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.PolygonGroupStubColorButton = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -218,6 +220,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.PolygonGroupStubColorButton);
+            this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.polygonStubColor);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.frameStubColorButton);
@@ -383,6 +387,24 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Image Viewer";
             // 
+            // PolygonGroupStubColorButton
+            // 
+            this.PolygonGroupStubColorButton.Location = new System.Drawing.Point(339, 60);
+            this.PolygonGroupStubColorButton.Name = "PolygonGroupStubColorButton";
+            this.PolygonGroupStubColorButton.Size = new System.Drawing.Size(24, 23);
+            this.PolygonGroupStubColorButton.TabIndex = 26;
+            this.PolygonGroupStubColorButton.UseVisualStyleBackColor = true;
+            this.PolygonGroupStubColorButton.Click += new System.EventHandler(this.ColorButtonClick);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(183, 65);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(129, 13);
+            this.label14.TabIndex = 27;
+            this.label14.Text = "Polygon Group Stub Color";
+            // 
             // PreferencesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -441,5 +463,7 @@
         private System.Windows.Forms.Button PolygonSelectedColorButton;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button PolygonGroupStubColorButton;
+        private System.Windows.Forms.Label label14;
     }
 }

@@ -28,9 +28,10 @@ namespace SpriteUtility
 
             DocumentStubColor = Color.Aquamarine;
             FolderStubColor = Color.Bisque;
-            ImageStubColor = Color.LightSkyBlue;
-            FrameStubColor = Color.LightCyan;
+            ImageStubColor = Color.CornflowerBlue;
+            FrameStubColor = Color.LightSkyBlue;
             PolygonStubColor = Color.AliceBlue;
+            PolygonGroupStubColor = Color.LightCyan;
             PolygonSelectedColor = Color.Red;
             SimulationRatio = 128f;
 
@@ -80,6 +81,9 @@ namespace SpriteUtility
 
         [XmlElement(Type = typeof(XmlColor))]
         public Color ViewerBackground { get; set; }
+
+        [XmlElement(Type = typeof(XmlColor))]
+        public Color PolygonGroupStubColor { get; set; }
 
         [XmlElement(Type = typeof(XmlColor))]
         public Color CenterPointColor { get; set; }
