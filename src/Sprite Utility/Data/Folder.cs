@@ -22,7 +22,7 @@ namespace SpriteUtility.Data
                 {
                     NameChanged(this, EventArgs.Empty);
                 }
-                Document.Instance.Invalidate(this, EventArgs.Empty);
+                Document.TryInvalidate(this, EventArgs.Empty);
             }
         }
 

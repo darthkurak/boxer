@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
+using SpriteUtility.Services;
 using Color = System.Drawing.Color;
 
 
@@ -27,9 +28,12 @@ namespace SpriteUtility
 
             DocumentStubColor = Color.Aquamarine;
             FolderStubColor = Color.Bisque;
-            ImageStubColor = Color.LightSkyBlue;
-            FrameStubColor = Color.LightCyan;
-            PolygonStubColor = Color.AliceBlue;    
+            ImageStubColor = Color.CornflowerBlue;
+            FrameStubColor = Color.LightSkyBlue;
+            PolygonStubColor = Color.AliceBlue;
+            PolygonGroupStubColor = Color.LightCyan;
+            PolygonSelectedColor = Color.Red;
+            SimulationRatio = 128f;
 
             PreferencesSaved += OnPreferencesSaved;
         }
@@ -47,9 +51,9 @@ namespace SpriteUtility
             if (!File.Exists(Path))
                 return new Preferences();
 
-            FileStream stream = new FileStream(Path, FileMode.Open);
+            var stream = new FileStream(Path, FileMode.Open);
       
-            XmlSerializer serializer = new XmlSerializer(typeof(Preferences));
+            var serializer = new XmlSerializer(typeof(Preferences));
             var preferences = (Preferences)serializer.Deserialize(stream);
 
             stream.Close();
@@ -58,10 +62,28 @@ namespace SpriteUtility
             return preferences;
         }
 
+        private float _simulatioRatio;
+
+        public float SimulationRatio
+        {
+            get { return _simulatioRatio; }
+            set
+            {
+                _simulatioRatio = value;
+                TraceService.SetDisplayUnitToSimUnitRatio(_simulatioRatio);
+            }
+        }
+
+        [XmlElement(Type = typeof(XmlColor))]
+        public Color PolygonSelectedColor { get; set; }
+
         public bool TrimToMinimalNonTransparentArea { get; set; }
 
         [XmlElement(Type = typeof(XmlColor))]
         public Color ViewerBackground { get; set; }
+
+        [XmlElement(Type = typeof(XmlColor))]
+        public Color PolygonGroupStubColor { get; set; }
 
         [XmlElement(Type = typeof(XmlColor))]
         public Color CenterPointColor { get; set; }

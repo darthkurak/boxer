@@ -107,15 +107,17 @@ namespace SpriteUtility
                     {
                         foreach (var frame in imageData.Frames)
                         {
+                            var polyGroup = new PolygonGroup(frame);
+
+                            frame.PolygonGroups.Add(polyGroup);
+
                             // Add an attack box stub
-                            var attack = new Polygon();
-                            attack.SetFrameParent(frame);
+                            var attack = new Polygon(polyGroup);
                             attack.Name = "Attack";
-                            frame.Polygons.Add(attack);
+                            polyGroup.Polygons.Add(attack);
                             
                             // Add a default foot box
-                            var foot = new Polygon();
-                            foot.SetFrameParent(frame);
+                            var foot = new Polygon(polyGroup);
                             foot.Name = "Foot";
 
                             var bottom = frame.TrimRectangle.Bottom;
@@ -125,16 +127,16 @@ namespace SpriteUtility
                             var width = frame.TrimRectangle.Width;
                             var height = frame.TrimRectangle.Height;
 
-                            var tl = new PolyPoint(left + (int)(width * 0.25f), bottom - 2);
-                            var tr = new PolyPoint(right - (int)(width * 0.25f), bottom - 2);
-                            var br = new PolyPoint(right - (int)(width * 0.25f), bottom);
-                            var bl = new PolyPoint(left + (int)(width * 0.25f), bottom);
-                            foot.Add(tl);
-                            foot.Add(tr);
-                            foot.Add(br);
-                            foot.Add(bl);
+                            var tl = new PolyPoint(left + (int)(width * 0.25f), bottom - 2, foot);
+                            var tr = new PolyPoint(right - (int)(width * 0.25f), bottom - 2, foot);
+                            var br = new PolyPoint(right - (int)(width * 0.25f), bottom, foot);
+                            var bl = new PolyPoint(left + (int)(width * 0.25f), bottom, foot);
+                            foot.Points.Add(tl);
+                            foot.Points.Add(tr);
+                            foot.Points.Add(br);
+                            foot.Points.Add(bl);
 
-                            frame.Polygons.Add(foot);
+                            polyGroup.Polygons.Add(foot);
 
                             // Set the center to best effort with no half-pixels
                             frame.CenterPointX = left + (int)(width * 0.5f);

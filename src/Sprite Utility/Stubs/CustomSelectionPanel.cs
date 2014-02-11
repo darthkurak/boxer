@@ -17,6 +17,7 @@ namespace SpriteUtility
         private ProjectProperties _projectProperties;
         private ViewerToolStrip _viewerToolStrip;
         private Panel _contentPanel;
+        private PolyGroupForm _polyGroupForm;
         private CustomSelection _selected;
 
         public CustomSelectionPanel()
@@ -65,7 +66,10 @@ namespace SpriteUtility
             _contentPanel.Controls.Add(_imageProperties);
             _polyForm = new PolyForm();
             _polyForm.Dock = DockStyle.Top;
+            _polyGroupForm = new PolyGroupForm();
+            _polyGroupForm.Dock = DockStyle.Top;
             _contentPanel.Controls.Add(_polyForm);
+            _contentPanel.Controls.Add(_polyGroupForm);
             HideAll();
         }
 
@@ -205,9 +209,22 @@ namespace SpriteUtility
             }
             else if (_selected is PolyStub && _contentPanel != null)
             {
+                HideAll();
+                _imageViewer.Visible = true;
+               // _imageViewer.PolygonGroup = null;
                 _imageViewer.Polygon = ((PolyStub) _selected).Poly;
                 _polyForm.Poly = ((PolyStub) _selected).Poly;
                 _polyForm.Visible = true;
+                _viewerToolStrip.Select(Mode.Polygon);
+            }
+            else if (_selected is PolygonGroupStub && _contentPanel != null)
+            {
+                HideAll();
+                _imageViewer.Visible = true;
+                _imageViewer.Polygon = null;
+                _imageViewer.PolygonGroup = ((PolygonGroupStub)_selected).PolygonGroup;
+                _polyGroupForm.Poly = ((PolygonGroupStub)_selected).PolygonGroup;
+                _polyGroupForm.Visible = true;
                 _viewerToolStrip.Select(Mode.Polygon);
             }
         }

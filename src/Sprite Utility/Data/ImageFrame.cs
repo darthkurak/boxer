@@ -32,7 +32,7 @@ namespace SpriteUtility.Data
                     {
                         IsOpenChanged(this, EventArgs.Empty);
                     }
-                    Document.Instance.Invalidate(this, EventArgs.Empty);
+                    Document.TryInvalidate(this, EventArgs.Empty);
                 }
             }
         }
@@ -86,7 +86,7 @@ namespace SpriteUtility.Data
         public int Height { get; private set; }
 
         [JsonProperty("polygons")]
-        public ObservableCollection<Polygon> Polygons { get; private set; }
+        public ObservableCollection<PolygonGroup> PolygonGroups { get; private set; }
 
         [JsonProperty("thumbnail")]
         public byte[] Thumbnail { get; set; }
@@ -109,10 +109,10 @@ namespace SpriteUtility.Data
             Data = null;
             Width = width;
             Height = height;
-            Polygons = new ObservableCollection<Polygon>();
+            PolygonGroups = new ObservableCollection<PolygonGroup>();
 
             CenterPointX = CenterPointY = 0;
-            Polygons.CollectionChanged += PolyCollectionChanged;
+            PolygonGroups.CollectionChanged += PolygonGroupsCollectionChanged;
 
             CenterPointChanged += OnCenterPointChanged;
         }
@@ -123,15 +123,15 @@ namespace SpriteUtility.Data
         protected virtual void OnCenterPointChanged(object sender, EventArgs e) { }
         protected virtual void OnOpenClosedStateChanged(object sender, EventArgs e) { }
 
-        private void PolyCollectionChanged(object sender, EventArgs e)
+        private void PolygonGroupsCollectionChanged(object sender, EventArgs e)
         {
-            Document.Instance.Invalidate(this, EventArgs.Empty);
+            Document.TryInvalidate(this, EventArgs.Empty);
         }
 
         public void UpdateCenterPoint()
         {
             CenterPointChanged(this, EventArgs.Empty);
-            Document.Instance.Invalidate(this, EventArgs.Empty);
+            Document.TryInvalidate(this, EventArgs.Empty);
         }
     }
 }

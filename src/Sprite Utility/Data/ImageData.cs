@@ -116,6 +116,7 @@ namespace SpriteUtility.Data
 
         protected virtual void OnFileNameChanged(object sender, EventArgs e)
         {
+            Document.TryInvalidate(sender, e);
         }
 
         private static string TestName(string fileName)
