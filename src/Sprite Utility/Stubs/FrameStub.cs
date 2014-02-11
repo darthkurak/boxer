@@ -6,12 +6,13 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
+using FarseerPhysics;
 using SpriteUtility.Data;
 using SpriteUtility.Forms;
 using SpriteUtility.Helpers;
 using SpriteUtility.Services;
 
-namespace SpriteUtility
+namespace SpriteUtility.Stubs
 {
     public partial class FrameStub : CustomSelection
     {
@@ -174,16 +175,20 @@ namespace SpriteUtility
         {
             var autoTraceForm = new AutoTraceForm();
             autoTraceForm.ShowDialog();
+            AddTracePolygonGroup();
+        }
+
+        private void AddTracePolygonGroup()
+        {
             using (var ms = new MemoryStream(_frame.Data))
             {
                 var imageBitmap = Image.FromStream(ms);
                 var errorBuilder = new StringBuilder();
                 var shape = TraceService.CreateComplexShape(imageBitmap, 20000, errorBuilder,
-                    AutoTraceForm.AutoTraceFormResult.HullTolerence,
-                    AutoTraceForm.AutoTraceFormResult.AlphaTolerence,
+                    AutoTraceForm.AutoTraceFormResult.HullTolerance,
+                    AutoTraceForm.AutoTraceFormResult.AlphaTolerance,
                     AutoTraceForm.AutoTraceFormResult.MultiPartDetection,
                     AutoTraceForm.AutoTraceFormResult.HoleDetection);
-
 
                 if (shape != null)
                 {
@@ -195,13 +200,20 @@ namespace SpriteUtility
 
                         foreach (var point in polygon)
                         {
-                            poly.Points.Add(new PolyPoint((int) point.X, (int) point.Y, poly));
+                            var x = (int) ConvertUnits.ToDisplayUnits(point.X);
+                            var y = (int) ConvertUnits.ToDisplayUnits(point.Y);
+
+                            x += (int) (_frame.Width*0.5f);
+                            y += (int) (_frame.Height*0.5f);
+
+                            poly.Points.Add(new PolyPoint(x, y, poly));
                         }
 
                         polygonGroup.Polygons.Add(poly);
-
                         count++;
                     }
+
+                    _frame.PolygonGroups.Add(polygonGroup);
                 }
 
                 ms.Close();

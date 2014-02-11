@@ -33,7 +33,7 @@ namespace SpriteUtility
             PolygonStubColor = Color.AliceBlue;
             PolygonGroupStubColor = Color.LightCyan;
             PolygonSelectedColor = Color.Red;
-            SimulationRatio = 128f;
+            SimulationRatio = 1f;
 
             PreferencesSaved += OnPreferencesSaved;
         }

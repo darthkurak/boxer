@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using SpriteUtility.CustomControls;
 using SpriteUtility.Forms;
+using SpriteUtility.Stubs;
 
 namespace SpriteUtility
 {

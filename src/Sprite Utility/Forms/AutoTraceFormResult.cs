@@ -2,9 +2,9 @@
 {
     public class AutoTraceFormResult
     {
-        public float HullTolerence { get; set; }
+        public float HullTolerance { get; set; }
 
-        public byte AlphaTolerence { get; set; }
+        public byte AlphaTolerance { get; set; }
 
         public bool MultiPartDetection { get; set; }
 

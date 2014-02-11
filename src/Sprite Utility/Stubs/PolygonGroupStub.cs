@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SpriteUtility.Data;
 
-namespace SpriteUtility
+namespace SpriteUtility.Stubs
 {
     public partial class PolygonGroupStub : CustomSelection
     {

@@ -1,4 +1,4 @@
-﻿namespace SpriteUtility
+﻿namespace SpriteUtility.Stubs
 {
     partial class FolderStub
     {

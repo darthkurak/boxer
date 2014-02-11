@@ -34,10 +34,10 @@
             this.HoleDetectionCheckBox = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.HullTolerenceTrackBar = new System.Windows.Forms.TrackBar();
-            this.AlphaTolerenceTrackBar = new System.Windows.Forms.TrackBar();
-            ((System.ComponentModel.ISupportInitialize)(this.HullTolerenceTrackBar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AlphaTolerenceTrackBar)).BeginInit();
+            this.HullToleranceTrackBar = new System.Windows.Forms.TrackBar();
+            this.AlphaToleranceTrackBar = new System.Windows.Forms.TrackBar();
+            ((System.ComponentModel.ISupportInitialize)(this.HullToleranceTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AlphaToleranceTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -100,30 +100,30 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // HullTolerenceTrackBar
+            // HullToleranceTrackBar
             // 
-            this.HullTolerenceTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.HullTolerenceTrackBar.Location = new System.Drawing.Point(136, 36);
-            this.HullTolerenceTrackBar.Name = "HullTolerenceTrackBar";
-            this.HullTolerenceTrackBar.Size = new System.Drawing.Size(508, 45);
-            this.HullTolerenceTrackBar.TabIndex = 6;
+            this.HullToleranceTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.HullToleranceTrackBar.Location = new System.Drawing.Point(136, 36);
+            this.HullToleranceTrackBar.Name = "HullToleranceTrackBar";
+            this.HullToleranceTrackBar.Size = new System.Drawing.Size(508, 45);
+            this.HullToleranceTrackBar.TabIndex = 6;
             // 
-            // AlphaTolerenceTrackBar
+            // AlphaToleranceTrackBar
             // 
-            this.AlphaTolerenceTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.AlphaTolerenceTrackBar.Location = new System.Drawing.Point(136, 127);
-            this.AlphaTolerenceTrackBar.Maximum = 100;
-            this.AlphaTolerenceTrackBar.Name = "AlphaTolerenceTrackBar";
-            this.AlphaTolerenceTrackBar.Size = new System.Drawing.Size(508, 45);
-            this.AlphaTolerenceTrackBar.TabIndex = 7;
+            this.AlphaToleranceTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.AlphaToleranceTrackBar.Location = new System.Drawing.Point(136, 127);
+            this.AlphaToleranceTrackBar.Maximum = 100;
+            this.AlphaToleranceTrackBar.Name = "AlphaToleranceTrackBar";
+            this.AlphaToleranceTrackBar.Size = new System.Drawing.Size(508, 45);
+            this.AlphaToleranceTrackBar.TabIndex = 7;
             // 
             // AutoTraceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(656, 329);
-            this.Controls.Add(this.AlphaTolerenceTrackBar);
-            this.Controls.Add(this.HullTolerenceTrackBar);
+            this.Controls.Add(this.AlphaToleranceTrackBar);
+            this.Controls.Add(this.HullToleranceTrackBar);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.HoleDetectionCheckBox);
@@ -133,8 +133,8 @@
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Name = "AutoTraceForm";
             this.Text = "AutoTraceForm";
-            ((System.ComponentModel.ISupportInitialize)(this.HullTolerenceTrackBar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AlphaTolerenceTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HullToleranceTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AlphaToleranceTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -148,7 +148,7 @@
         private System.Windows.Forms.CheckBox HoleDetectionCheckBox;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TrackBar HullTolerenceTrackBar;
-        private System.Windows.Forms.TrackBar AlphaTolerenceTrackBar;
+        private System.Windows.Forms.TrackBar HullToleranceTrackBar;
+        private System.Windows.Forms.TrackBar AlphaToleranceTrackBar;
     }
 }

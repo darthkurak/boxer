@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.Windows.Forms;
 using SpriteUtility.Data;
+using SpriteUtility.Stubs;
 
 namespace SpriteUtility
 {
