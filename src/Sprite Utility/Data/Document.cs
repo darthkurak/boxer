@@ -131,14 +131,21 @@ namespace SpriteUtility
             m_TriggerInvalidate = false;
             for (var i = 0; i < folderCount; i++)
             {
-                var deserializedFolder = deserialized.Folders[i];
+                var toCopy = deserialized.Folders[i];
                 var newFolder = new Folder();
-                newFolder.Name = deserializedFolder.Name;
-                foreach (var folder in deserializedFolder.Folders)
+                newFolder.Name = toCopy.Name;
+
+                foreach (var folder in toCopy.Folders)
                 {
-                    newFolder.Add(folder);
+                    var childNewFolder = new Folder();
+                    childNewFolder.Name = folder.Name;
+                    foreach (var image in folder.Images)
+                    {
+                        childNewFolder.Add(image);
+                    }
+                    newFolder.Add(childNewFolder);
                 }
-                foreach (var image in deserializedFolder.Images)
+                foreach (var image in toCopy.Images)
                 {
                     newFolder.Add(image);
                 }
@@ -148,8 +155,6 @@ namespace SpriteUtility
             
             _instance = newDocument;
             _instance.Saved = true;
-
-
         }
 
         private static void SetFrameParents(IEnumerable<Folder> folders)
