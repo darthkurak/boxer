@@ -40,7 +40,7 @@ namespace SpriteUtility.Stubs
                 }
             }
 
-            SetContextMenu();
+            SetContextMenu(); 
         }
 
         private void PreferencesOnPreferencesSaved(object sender, EventArgs eventArgs)
@@ -105,6 +105,7 @@ namespace SpriteUtility.Stubs
                         foreach (var frame in imageData.Frames)
                         {
                             AddAttackBoxStub(frame);
+                            AddClippingBoxStub(frame);
                             AddDefaultFootBox(frame);
                             AddBodyTrace(frame);
                             SetNaturalCenter(frame);
@@ -191,7 +192,15 @@ namespace SpriteUtility.Stubs
         {
             var attackGroup = new PolygonGroup(frame) {Name = "Attack"};
             frame.PolygonGroups.Add(attackGroup);
-            var attack = new Polygon(attackGroup) {Name = "Attack"};
+            var attack = new Polygon(attackGroup) {Name = "Polygon 1"};
+            attackGroup.Polygons.Add(attack);
+        }
+
+        private static void AddClippingBoxStub(ImageFrame frame)
+        {
+            var attackGroup = new PolygonGroup(frame) { Name = "Clipping" };
+            frame.PolygonGroups.Add(attackGroup);
+            var attack = new Polygon(attackGroup) { Name = "Polygon 1" };
             attackGroup.Polygons.Add(attack);
         }
 
