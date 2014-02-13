@@ -129,6 +129,7 @@ namespace SpriteUtility
             m_TriggerInvalidate = true;
             var folderCount = deserialized.Folders.Count;
             m_TriggerInvalidate = false;
+
             for (var i = 0; i < folderCount; i++)
             {
                 var toCopy = deserialized.Folders[i];
@@ -145,6 +146,7 @@ namespace SpriteUtility
                     }
                     newFolder.Add(childNewFolder);
                 }
+
                 foreach (var image in toCopy.Images)
                 {
                     newFolder.Add(image);

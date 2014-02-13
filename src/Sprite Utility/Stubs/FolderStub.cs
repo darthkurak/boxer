@@ -106,6 +106,7 @@ namespace SpriteUtility.Stubs
                         {
                             AddAttackBoxStub(frame);
                             AddClippingBoxStub(frame);
+                            AddPlatformBoxStub(frame);
                             AddDefaultFootBox(frame);
                             AddBodyTrace(frame);
                             SetNaturalCenter(frame);
@@ -117,7 +118,7 @@ namespace SpriteUtility.Stubs
             }
             ImageViewer.Paused = false;
         }
-
+        
         private static void AddBodyTrace(ImageFrame frame)
         {
             using (var ms = new MemoryStream(frame.Data))
@@ -186,6 +187,15 @@ namespace SpriteUtility.Stubs
             foot.Points.Add(bl);
 
             footGroup.Polygons.Add(foot);
+        }
+
+
+        private static void AddPlatformBoxStub(ImageFrame frame)
+        {
+            var platformGroup = new PolygonGroup(frame) { Name = "Platform" };
+            frame.PolygonGroups.Add(platformGroup);
+            var attack = new Polygon(platformGroup) { Name = "Polygon 1" };
+            platformGroup.Polygons.Add(attack);
         }
 
         private static void AddAttackBoxStub(ImageFrame frame)
