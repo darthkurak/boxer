@@ -438,10 +438,13 @@ namespace SpriteUtility
             }
 
             //ctrl + +, ctrl + - to control zoom
-            if (ModifierKeys == Keys.Control && e.KeyCode == Keys.Add)
+            const Keys macOemPlus = (Keys.LButton | Keys.RButton | Keys.Back | Keys.ShiftKey | Keys.Space | Keys.F17);
+            const Keys macOemMinus = (Keys.LButton | Keys.MButton | Keys.Back | Keys.ShiftKey | Keys.Space | Keys.F17);
+
+            if (ModifierKeys == Keys.Control && (e.KeyCode == Keys.Add || e.KeyCode == macOemPlus))
                 DoZoom(1);
 
-            if (ModifierKeys == Keys.Control && e.KeyCode == Keys.Subtract)
+            if (ModifierKeys == Keys.Control && (e.KeyCode == Keys.Subtract || e.KeyCode == macOemMinus))
                 DoZoom(-1);
         }
 

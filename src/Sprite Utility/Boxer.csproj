@@ -129,11 +129,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Data\Document.cs" />
-    <Compile Include="Stubs\DocumentStub.cs">
+    <Compile Include="Stubs\ImageDataFactory.cs" />
+    <Compile Include="Stubs\ProjectStub.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Stubs\DocumentStub.Designer.cs">
-      <DependentUpon>DocumentStub.cs</DependentUpon>
+    <Compile Include="Stubs\ProjectStub.Designer.cs">
+      <DependentUpon>ProjectStub.cs</DependentUpon>
     </Compile>
     <Compile Include="Stubs\FrameStub.cs">
       <SubType>UserControl</SubType>
@@ -226,8 +227,8 @@
     <EmbeddedResource Include="Stubs\CustomSelection.resx">
       <DependentUpon>CustomSelection.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Stubs\DocumentStub.resx">
-      <DependentUpon>DocumentStub.cs</DependentUpon>
+    <EmbeddedResource Include="Stubs\ProjectStub.resx">
+      <DependentUpon>ProjectStub.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Stubs\FrameStub.resx">
       <DependentUpon>FrameStub.cs</DependentUpon>

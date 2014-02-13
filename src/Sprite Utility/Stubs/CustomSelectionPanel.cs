@@ -160,10 +160,10 @@ namespace SpriteUtility
                 _selected.ChangeSelection((CustomSelection) sender);
             _selected = (CustomSelection) sender;
 
-            if (typeof (DocumentStub) == _selected.GetType() && _contentPanel != null)
+            if (typeof (ProjectStub) == _selected.GetType() && _contentPanel != null)
             {
                 HideAll();
-                _projectProperties.Document = ((DocumentStub) _selected).Document;
+                _projectProperties.Document = ((ProjectStub) _selected).Document;
                 _projectProperties.Visible = true;
             }
             else if (typeof (FolderStub) == _selected.GetType() && _contentPanel != null)

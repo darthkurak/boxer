@@ -125,6 +125,8 @@ namespace SpriteUtility
 
         public int ZoomIndex { get; set; }
 
+        public string LastFolderBrowsed { get; set; }
+
         public void CommitChanges()
         {
             var stream = new FileStream(Path, FileMode.Create);

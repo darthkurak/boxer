@@ -151,7 +151,7 @@ namespace SpriteUtility
         {
             if (Document.Instance != null)
             {
-                MainTree.AddSelectable(new DocumentStub(Document.Instance));
+                MainTree.AddSelectable(new ProjectStub(Document.Instance));
             }
         }
 

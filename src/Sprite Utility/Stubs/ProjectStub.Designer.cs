@@ -1,6 +1,6 @@
 ﻿namespace SpriteUtility
 {
-    partial class DocumentStub
+    partial class ProjectStub
     {
         /// <summary> 
         /// Required designer variable.
@@ -48,7 +48,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.ProjectLabel);
-            this.Name = "DocumentStub";
+            this.Name = "ProjectStub";
             this.Size = new System.Drawing.Size(250, 26);
             this.ResumeLayout(false);
             this.PerformLayout();

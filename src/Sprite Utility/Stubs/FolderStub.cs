@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FarseerPhysics;
@@ -66,8 +67,14 @@ namespace SpriteUtility.Stubs
             {
                 new MenuItem("Add Folder", MenuAddFolderClicked),
                 new MenuItem("Remove Folder", MenuRemoveFolderClicked),
-                new MenuItem("Add Image", MenuAddImageClicked)
+                new MenuItem("Add Image", MenuAddImageClicked),
+                new MenuItem("Add From Existing Folder", MenuAddExistingFolderClicked)
             });
+        }
+
+        private void MenuAddExistingFolderClicked(object sender, EventArgs e)
+        {
+            ImageDataFactory.ImportFromExistingDirectoryDialog(_folder);
         }
 
         private void MenuAddFolderClicked(object sender, EventArgs e)
@@ -77,9 +84,9 @@ namespace SpriteUtility.Stubs
 
         private void MenuRemoveFolderClicked(object sender, EventArgs e)
         {
-            if (ParentSelection is DocumentStub)
+            if (ParentSelection is ProjectStub)
             {
-                (ParentSelection as DocumentStub).Document.Folders.Remove(_folder);
+                (ParentSelection as ProjectStub).Document.Folders.Remove(_folder);
             }
             else if (ParentSelection is FolderStub)
             {
@@ -95,123 +102,12 @@ namespace SpriteUtility.Stubs
             {
                 foreach (var filename in dialog.FileNames)
                 {
-                    var imageData = new ImageData(filename);
-
-                    // Since we are adding new images we can stub in some
-                    //    conventional defaults (currently for trimmed frames only)
-
-                    if (MainForm.Preferences.TrimToMinimalNonTransparentArea)
-                    {
-                        foreach (var frame in imageData.Frames)
-                        {
-                            AddAttackBoxStub(frame);
-                            AddClippingBoxStub(frame);
-                            AddPlatformBoxStub(frame);
-                            AddDefaultFootBox(frame);
-                            AddBodyTrace(frame);
-                            SetNaturalCenter(frame);
-                        }   
-                    }
+                    var imageData = ImageDataFactory.CreateFromFilename(filename);
 
                     _folder.Add(imageData);
                 }
             }
             ImageViewer.Paused = false;
-        }
-        
-        private static void AddBodyTrace(ImageFrame frame)
-        {
-            using (var ms = new MemoryStream(frame.Data))
-            {
-                var imageBitmap = Image.FromStream(ms);
-                var errorBuilder = new StringBuilder();
-                var shape = TraceService.CreateSimpleShape(imageBitmap, 2000, errorBuilder);
-
-                if (shape != null)
-                {
-                    var bodyGroup = new PolygonGroup(frame) {Name = "Body"};
-                    var count = 1;
-                    foreach (var polygon in shape.Vertices)
-                    {
-                        var poly = new Polygon(bodyGroup) { Name = "Polygon " + count };
-
-                        foreach (var point in polygon)
-                        {
-                            var x = (int)ConvertUnits.ToDisplayUnits(point.X);
-                            var y = (int)ConvertUnits.ToDisplayUnits(point.Y);
-
-                            x += (int)(frame.Width * 0.5f);
-                            y += (int)(frame.Height * 0.5f);
-
-                            poly.Points.Add(new PolyPoint(x, y, poly));
-                        }
-
-                        bodyGroup.Polygons.Add(poly);
-                        count++;
-                    }
-
-                    frame.PolygonGroups.Add(bodyGroup);
-                }
-            }
-        }
-
-        private static void SetNaturalCenter(ImageFrame frame)
-        {
-            var left = frame.TrimRectangle.Left;
-            var width = frame.TrimRectangle.Width;
-            var height = frame.TrimRectangle.Height;
-            var top = frame.TrimRectangle.Top;
-
-            frame.CenterPointX = left + (int) (width*0.5f);
-            frame.CenterPointY = top + (int) (height*0.5f);
-        }
-
-        private static void AddDefaultFootBox(ImageFrame frame)
-        {
-            var footGroup = new PolygonGroup(frame) { Name = "Foot" };
-            frame.PolygonGroups.Add(footGroup);
-            var foot = new Polygon(footGroup) { Name = "Foot" };
-
-            var bottom = frame.TrimRectangle.Bottom;
-            var left = frame.TrimRectangle.Left;
-            var right = frame.TrimRectangle.Right;
-            var width = frame.TrimRectangle.Width;
-            
-            var tl = new PolyPoint(left + (int)(width * 0.25f), bottom - 2, foot);
-            var tr = new PolyPoint(right - (int)(width * 0.25f), bottom - 2, foot);
-            var br = new PolyPoint(right - (int)(width * 0.25f), bottom, foot);
-            var bl = new PolyPoint(left + (int)(width * 0.25f), bottom, foot);
-            foot.Points.Add(tl);
-            foot.Points.Add(tr);
-            foot.Points.Add(br);
-            foot.Points.Add(bl);
-
-            footGroup.Polygons.Add(foot);
-        }
-
-
-        private static void AddPlatformBoxStub(ImageFrame frame)
-        {
-            var platformGroup = new PolygonGroup(frame) { Name = "Platform" };
-            frame.PolygonGroups.Add(platformGroup);
-            var attack = new Polygon(platformGroup) { Name = "Polygon 1" };
-            platformGroup.Polygons.Add(attack);
-        }
-
-        private static void AddAttackBoxStub(ImageFrame frame)
-        {
-            var attackGroup = new PolygonGroup(frame) {Name = "Attack"};
-            frame.PolygonGroups.Add(attackGroup);
-            var attack = new Polygon(attackGroup) {Name = "Polygon 1"};
-            attackGroup.Polygons.Add(attack);
-        }
-
-        private static void AddClippingBoxStub(ImageFrame frame)
-        {
-            var attackGroup = new PolygonGroup(frame) { Name = "Clipping" };
-            frame.PolygonGroups.Add(attackGroup);
-            var attack = new Polygon(attackGroup) { Name = "Polygon 1" };
-            attackGroup.Polygons.Add(attack);
         }
 
         private void ChildrenCountChanged(object sender, EventArgs e)

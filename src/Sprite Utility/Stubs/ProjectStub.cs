@@ -1,17 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using SpriteUtility.Data;
 using SpriteUtility.Stubs;
 
 namespace SpriteUtility
 {
-    public partial class DocumentStub : CustomSelection
+    public partial class ProjectStub : CustomSelection
     {
         private readonly Document _document;
 
-        public DocumentStub(Document d)
+        public ProjectStub(Document d)
         {
             InitializeComponent();
             _document = d;
@@ -82,7 +85,16 @@ namespace SpriteUtility
 
         private void SetContextMenu()
         {
-            ContextMenu = new ContextMenu(new[] {new MenuItem("Add Folder", MenuAddFolderClicked)});
+            ContextMenu = new ContextMenu(new[]
+            {
+                new MenuItem("Add Folder", MenuAddFolderClicked),
+                new MenuItem("Add From Existing Folder", MenuAddExistingFolderClicked)
+            });
+        }
+
+        private void MenuAddExistingFolderClicked(object sender, EventArgs e)
+        {
+            ImageDataFactory.ImportFromExistingDirectoryDialog(_document);
         }
 
         private void MenuAddFolderClicked(object sender, EventArgs e)
