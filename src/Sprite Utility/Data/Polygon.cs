@@ -1,72 +1,42 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace SpriteUtility.Data
+namespace Boxer.Data
 {
-    [Serializable]
-    public class Polygon
+    public sealed class Polygon : NodeWithName
     {
-        private readonly bool _invalidateTrigger;
-        private readonly ObservableCollection<PolyPoint> _points;
-        private string _name;
-        private PolygonGroup _polygonGroupParent;
-
-        public PolygonGroup PolygonGroupParent
-        {
-            get { return _polygonGroupParent; }
-        }
-
         [JsonProperty("points")]
-        public ObservableCollection<PolyPoint> Points
+        public override ObservableCollection<INode> Children
         {
-            get { return _points; }
-        }
-
-        [JsonProperty("name")]
-        public string Name
-        {
-            get { return _name; }
+            get
+            {
+                return _children;
+            }
             set
             {
-                if (!_name.Equals(value))
-                {
-                    _name = value;
-                    if (NameChanged != null)
-                    {
-                        NameChanged(this, EventArgs.Empty);
-                    }
-
-                    Document.TryInvalidate(this, EventArgs.Empty);
-                }
+                Set(ref _children, value);
             }
         }
 
         public Polygon()
         {
-            _points = new ObservableCollection<PolyPoint>();
-            _name = "New Poly";
-            _invalidateTrigger = true;
-            _points.CollectionChanged += PointCollectionChanged;
+            Name = "New Polygon";
+            Children = new ObservableCollection<INode>();
         }
 
-        public Polygon(PolygonGroup polygonGroupParent) : this()
+        [JsonConstructor]
+        public Polygon(ObservableCollection<PolyPoint> points)
+            : this()
         {
-            _polygonGroupParent = polygonGroupParent;
+            foreach (var point in points)
+            {
+                AddChild(point);
+            }
         }
-
-        public void SetPolygonGroupParent(PolygonGroup polygonGroupParent)
-        {
-            _polygonGroupParent = polygonGroupParent;
-        }
-
-        public event EventHandler<EventArgs> NameChanged;
-
-        private void PointCollectionChanged(object sender, EventArgs e)
-        {
-            if (!_invalidateTrigger) return;
-            Document.TryInvalidate(this, EventArgs.Empty);
-        }
-
     }
 }

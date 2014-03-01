@@ -3,72 +3,61 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Boxer.Core;
 using Newtonsoft.Json;
 
-namespace SpriteUtility.Data
+namespace Boxer.Data
 {
-    public class PolygonGroup
+    public sealed class PolygonGroup : NodeWithName
     {
-        private readonly bool _invalidateTrigger;
-        private ImageFrame _frameParent;
-        private string _name;
-        private readonly ObservableCollection<Polygon> _polygons;
-
-        public ImageFrame FrameParent
-        {
-            get { return _frameParent; }
-        }
-
         [JsonProperty("polygons")]
-        public ObservableCollection<Polygon> Polygons
+        public override ObservableCollection<INode> Children
         {
-            get { return _polygons; }
-        }
-
-        [JsonProperty("name")]
-        public string Name
-        {
-            get { return _name; }
+            get
+            {
+                return _children;
+            }
             set
             {
-                if (!_name.Equals(value))
-                {
-                    _name = value;
-                    if (NameChanged != null)
-                    {
-                        NameChanged(this, EventArgs.Empty);
-                    }
-                    Document.TryInvalidate(this, EventArgs.Empty);
-                }
+                Set(ref _children, value);
             }
         }
 
-        public PolygonGroup()
+        public PolygonGroup(string name = "New Polygon Group")
         {
-            _polygons = new ObservableCollection<Polygon>();
-            _name = "Body";
-            _invalidateTrigger = true;
-            _polygons.CollectionChanged += PolygonsCollectionChanged;
+            Name = name;
+            Children = new ObservableCollection<INode>();
         }
 
-        public PolygonGroup(ImageFrame frameParent) : this()
+        [JsonConstructor]
+        public PolygonGroup(ObservableCollection<Polygon> polygons)
+            : this()
         {
-            _frameParent = frameParent;
+            foreach (var polygon in polygons)
+            {
+                AddChild(polygon);
+            }
         }
 
-        public void SetFrameParent(ImageFrame frameParent)
-        {
-            _frameParent = frameParent;
-        }
-        public event EventHandler<EventArgs> NameChanged;
+        [JsonIgnore]
+        public SmartCommand<object> NewPolygonCommand { get; private set; }
 
-        protected virtual void OnPointsChanged(object sender, EventArgs e) { }
-
-        private void PolygonsCollectionChanged(object sender, EventArgs e)
+        public bool CanExecuteNewPolygonCommand(object o)
         {
-            if (!_invalidateTrigger) return;
-            Document.TryInvalidate(this, EventArgs.Empty);
+            return true;
         }
 
+        public void ExecuteNewPolygonCommand(object o)
+        {
+            var polygonGroup = new Polygon();
+            AddChild(polygonGroup);
+        }
+
+        protected override void InitializeCommands()
+        {
+            NewPolygonCommand = new SmartCommand<object>(ExecuteNewPolygonCommand, CanExecuteNewPolygonCommand);
+            base.InitializeCommands();
+        }
     }
 }

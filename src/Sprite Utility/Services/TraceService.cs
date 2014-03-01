@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Text;
+using System.Linq;
 using FarseerPhysics;
 using FarseerPhysics.Common;
 using FarseerPhysics.Common.Decomposition;
 using FarseerPhysics.Common.PolygonManipulation;
 using fwd;
 
-namespace SpriteUtility.Services
+namespace Boxer.Services
 {
     public static class TraceService
     {

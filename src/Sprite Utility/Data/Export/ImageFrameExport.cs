@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Boxer.Data;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using SpriteUtility.Data;
@@ -25,8 +26,8 @@ namespace SpriteUtility
         public ImageFrameExport(ImageFrame frame)
         {
             CenterPoint = new Vector2(frame.MappedCenterPointX, frame.MappedCenterPointY);
-            PolygonGroups = new List<PolygonGroupExport>(frame.PolygonGroups.Count);
-            foreach (var polyGroup in frame.PolygonGroups)
+            PolygonGroups = new List<PolygonGroupExport>(frame.Children.Count);
+            foreach (PolygonGroup polyGroup in frame.Children)
             {
                 PolygonGroups.Add(new PolygonGroupExport(polyGroup));
             }
